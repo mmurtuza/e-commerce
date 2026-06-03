@@ -9,11 +9,11 @@
     <!-- Quick Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="bg-white rounded-2xl p-5 shadow-sm text-center">
-            <div class="text-3xl font-bold text-[#2D6A4F]">{{ auth()->user()->orders()->count() }}</div>
+            <div class="text-3xl font-bold text-primary-600">{{ auth()->user()->orders()->count() }}</div>
             <div class="text-sm text-gray-500 mt-1">{{ __('general.total_orders') }}</div>
         </div>
         <div class="bg-white rounded-2xl p-5 shadow-sm text-center">
-            <div class="text-3xl font-bold text-[#52B788]">৳{{ number_format(auth()->user()->total_spent, 0) }}</div>
+            <div class="text-3xl font-bold text-primary-400">৳{{ number_format(auth()->user()->total_spent, 0) }}</div>
             <div class="text-sm text-gray-500 mt-1">{{ __('general.total_spent') }}</div>
         </div>
         <div class="bg-white rounded-2xl p-5 shadow-sm text-center">
@@ -45,12 +45,12 @@
     <div class="bg-white rounded-2xl shadow-sm p-6">
         <div class="flex justify-between items-center mb-5">
             <h2 class="font-bold text-gray-800 text-lg">{{ __('general.recent_orders') }}</h2>
-            <a href="{{ route('customer.orders') }}" class="text-[#2D6A4F] text-sm hover:text-[#52B788]">{{ __('general.view_all') }} →</a>
+            <a href="{{ route('customer.orders') }}" class="text-primary-600 text-sm hover:text-primary-400">{{ __('general.view_all') }} →</a>
         </div>
         @if($recentOrders->isEmpty())
         <div class="text-center py-10 text-gray-500">
             <div class="text-4xl mb-3">📦</div>
-            <p>{{ __('general.no_orders_yet') }} <a href="{{ route('shop.index') }}" class="text-[#2D6A4F]">{{ __('general.start_shopping_exclamation') }}</a></p>
+            <p>{{ __('general.no_orders_yet') }} <a href="{{ route('shop.index') }}" class="text-primary-600">{{ __('general.start_shopping_exclamation') }}</a></p>
         </div>
         @else
         <div class="overflow-x-auto">
@@ -67,7 +67,7 @@
                 <tbody class="divide-y divide-gray-50">
                     @foreach($recentOrders as $order)
                     <tr class="hover:bg-gray-50">
-                        <td class="py-3 font-semibold text-[#2D6A4F]">{{ $order->order_number }}</td>
+                        <td class="py-3 font-semibold text-primary-600">{{ $order->order_number }}</td>
                         <td class="py-3 text-gray-500">{{ $order->created_at->format('d M Y') }}</td>
                         <td class="py-3">
                             @php
@@ -87,7 +87,7 @@
                         </td>
                         <td class="py-3 font-bold">৳{{ number_format($order->total, 0) }}</td>
                         <td class="py-3 text-right">
-                            <a href="{{ route('customer.order.show', $order->order_number) }}" class="text-[#2D6A4F] hover:text-[#52B788]">{{ __('general.view') }}</a>
+                            <a href="{{ route('customer.order.show', $order->order_number) }}" class="text-primary-600 hover:text-primary-400">{{ __('general.view') }}</a>
                         </td>
                     </tr>
                     @endforeach

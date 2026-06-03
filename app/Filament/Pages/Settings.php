@@ -33,6 +33,7 @@ class Settings extends Page
             'phone' => $settings->get('phone')?->value ?? '',
             'email' => $settings->get('email')?->value ?? '',
             'address' => $settings->get('address')?->value ?? '',
+            'theme' => $settings->get('theme')?->value ?? 'default',
         ]);
     }
 
@@ -50,6 +51,18 @@ class Settings extends Page
                     Forms\Components\TextInput::make('email')->label('Email')->email(),
                     Forms\Components\Textarea::make('address')->label('Address')->columnSpanFull(),
                 ])->columns(2),
+                Forms\Components\Section::make('Appearance')->schema([
+                    Forms\Components\Select::make('theme')
+                        ->label('Site Theme')
+                        ->options([
+                            'default' => 'Forest Green',
+                            'ocean' => 'Ocean Blue',
+                            'sunset' => 'Sunset Orange',
+                            'midnight' => 'Midnight Dark',
+                            'rose' => 'Rose Gold',
+                        ])
+                        ->required(),
+                ])->columns(1),
             ])
             ->statePath('data');
     }

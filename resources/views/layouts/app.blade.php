@@ -1,5 +1,8 @@
+@php
+    $theme = \App\Models\Setting::get('theme', 'default');
+@endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-theme="{{ $theme }}">
 
 <head>
     <meta charset="utf-8">
@@ -39,17 +42,12 @@
         rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite("resources/css/themes/{$theme}.css")
     @stack('styles')
 
     <style>
         [x-cloak] {
             display: none !important;
-        }
-
-        body {
-            background-color: #F8FAF5;
-            font-family: 'Inter', sans-serif;
-            color: #1B1B1B;
         }
 
         h1,
@@ -123,7 +121,7 @@
                  x-transition:leave="transition ease-in duration-200 transform translate-y-0 opacity-100"
                  x-transition:leave-start="transform translate-y-0 opacity-100"
                  x-transition:leave-end="transform translate-y-2 opacity-0"
-                 class="pointer-events-auto bg-[#2D6A4F] text-white px-4 py-3 rounded-xl shadow-lg flex items-center justify-between gap-3 border border-[#52B788]/20">
+                 class="pointer-events-auto bg-primary-600 text-white px-4 py-3 rounded-xl shadow-lg flex items-center justify-between gap-3 border border-primary-400/20">
                 <div class="flex items-center gap-2">
                     <span class="text-lg">🛒</span>
                     <span x-text="toast.message" class="text-sm font-medium"></span>

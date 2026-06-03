@@ -14,7 +14,7 @@
         <!-- Badges -->
         <div class="absolute top-2 left-2 flex flex-col gap-1">
             @if($product->is_new_arrival)
-                <span class="bg-[#2D6A4F] text-white text-xs px-2 py-1 rounded-full">{{ __('general.new') }}</span>
+                <span class="bg-primary-600 text-white text-xs px-2 py-1 rounded-full">{{ __('general.new') }}</span>
             @endif
             @if($product->discount_percentage > 0)
                 <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">-{{ $product->discount_percentage }}%</span>
@@ -45,11 +45,11 @@
     <!-- Content -->
     <div class="p-4">
         @if($product->category)
-            <span class="text-xs text-[#52B788] font-medium">{{ $product->category->name }}</span>
+            <span class="text-xs text-primary-400 font-medium">{{ $product->category->name }}</span>
         @endif
 
         <a href="{{ route('shop.show', $product->slug) }}">
-            <h3 class="font-semibold text-gray-800 mt-1 hover:text-[#2D6A4F] transition line-clamp-2">{{ $product->name }}</h3>
+            <h3 class="font-semibold text-gray-800 mt-1 hover:text-primary-600 transition line-clamp-2">{{ $product->name }}</h3>
         </a>
 
         <!-- Rating -->
@@ -64,7 +64,7 @@
         <!-- Price -->
         <div class="flex items-center justify-between mt-3">
             <div>
-                <span class="text-[#2D6A4F] font-bold text-lg">৳{{ number_format($product->price, 0) }}</span>
+                <span class="text-primary-600 font-bold text-lg">৳{{ number_format($product->price, 0) }}</span>
                 @if($product->compare_price)
                     <span class="text-gray-400 text-sm line-through ml-1">৳{{ number_format($product->compare_price, 0) }}</span>
                 @endif
@@ -85,7 +85,7 @@
                 });
             "
             :disabled="adding"
-            class="bg-[#2D6A4F] text-white p-2 rounded-lg hover:bg-[#52B788] transition disabled:opacity-50">
+            class="bg-primary-600 text-white p-2 rounded-lg hover:bg-primary-400 transition disabled:opacity-50">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </button>
             @else

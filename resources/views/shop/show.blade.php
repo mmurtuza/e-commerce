@@ -43,7 +43,7 @@
             <div class="flex gap-2 overflow-x-auto pb-2">
                 @foreach($product->images as $image)
                 <button @click="activeImage = '{{ $image->url }}'" class="shrink-0">
-                    <img src="{{ $image->url }}" alt="{{ $image->alt_text }}" class="w-16 h-16 object-cover rounded-lg border-2 hover:border-[#2D6A4F] transition">
+                    <img src="{{ $image->url }}" alt="{{ $image->alt_text }}" class="w-16 h-16 object-cover rounded-lg border-2 hover:border-primary-600 transition">
                 </button>
                 @endforeach
             </div>
@@ -53,7 +53,7 @@
         <!-- Product Info -->
         <div>
             @if($product->category)
-            <span class="text-sm text-[#52B788] font-medium">{{ $product->category->name }}</span>
+            <span class="text-sm text-primary-400 font-medium">{{ $product->category->name }}</span>
             @endif
             <h1 class="text-3xl font-bold text-gray-800 mt-2">{{ $product->name }}</h1>
 
@@ -71,7 +71,7 @@
 
             <!-- Price -->
             <div class="mt-4 flex items-baseline gap-3">
-                <span class="text-3xl font-bold text-[#2D6A4F]">৳{{ number_format($product->price, 0) }}</span>
+                <span class="text-3xl font-bold text-primary-600">৳{{ number_format($product->price, 0) }}</span>
                 @if($product->compare_price)
                 <span class="text-xl text-gray-400 line-through">৳{{ number_format($product->compare_price, 0) }}</span>
                 <span class="bg-red-100 text-red-600 text-sm px-2 py-0.5 rounded-full">-{{ $product->discount_percentage }}%</span>
@@ -111,7 +111,7 @@
                 <div class="flex flex-wrap gap-2">
                     @foreach($product->variants->where('is_active', true) as $variant)
                     <button @click="selectedVariant = {{ $variant->id }}"
-                        :class="selectedVariant === {{ $variant->id }} ? 'border-[#2D6A4F] bg-[#2D6A4F] text-white' : 'border-gray-200 text-gray-700'"
+                        :class="selectedVariant === {{ $variant->id }} ? 'border-primary-600 bg-primary-600 text-white' : 'border-gray-200 text-gray-700'"
                         class="px-4 py-2 border rounded-lg text-sm font-medium transition">
                         {{ $variant->name }}
                         @if($variant->price_modifier != 0)
@@ -133,7 +133,7 @@
 
                 @if($product->isInStock())
                 <button @click="addToCart()" :disabled="adding"
-                    class="flex-1 bg-[#2D6A4F] text-white py-3 rounded-xl font-semibold hover:bg-[#52B788] transition disabled:opacity-60">
+                    class="flex-1 bg-primary-600 text-white py-3 rounded-xl font-semibold hover:bg-primary-400 transition disabled:opacity-60">
                     <span x-text="adding ? '{{ __('general.adding') }}' : '{{ __('general.add_to_cart') }}'"></span>
                 </button>
                 @else
@@ -166,7 +166,7 @@
         <div class="flex border-b mb-6">
             @foreach(['description' => __('general.description'), 'care' => __('general.care_tips'), 'reviews' => __('general.reviews')] as $key => $label)
             <button @click="tab = '{{ $key }}'"
-                :class="tab === '{{ $key }}' ? 'border-b-2 border-[#2D6A4F] text-[#2D6A4F] font-semibold' : 'text-gray-500'"
+                :class="tab === '{{ $key }}' ? 'border-b-2 border-primary-600 text-primary-600 font-semibold' : 'text-gray-500'"
                 class="px-6 py-3 text-sm transition">{{ $label }}</button>
             @endforeach
         </div>
@@ -192,7 +192,7 @@
                 <div class="bg-white rounded-xl p-5 shadow-sm">
                     <div class="flex items-start justify-between">
                         <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 bg-[#2D6A4F] rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            <div class="w-9 h-9 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                                 {{ strtoupper(substr($review->user->name, 0, 1)) }}
                             </div>
                             <div>
@@ -218,7 +218,7 @@
 
             <!-- Submit Review Form -->
             @auth
-            <div class="bg-[#F8FAF5] rounded-2xl p-6">
+            <div class="bg-[var(--theme-bg)] rounded-2xl p-6">
                 <h3 class="font-bold text-gray-800 mb-4">{{ __('general.write_a_review') }}</h3>
                 <form method="POST" action="{{ route('reviews.store') }}">
                     @csrf
@@ -236,15 +236,15 @@
                     </div>
                     <div class="mb-4">
                         <textarea name="comment" rows="3" placeholder="{{ __('general.share_your_experience') }}"
-                            class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm outline-none focus:border-[#2D6A4F]"></textarea>
+                            class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm outline-none focus:border-primary-600"></textarea>
                     </div>
-                    <button type="submit" class="bg-[#2D6A4F] text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-[#52B788] transition">
+                    <button type="submit" class="bg-primary-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-primary-400 transition">
                         {{ __('general.submit_review') }}
                     </button>
                 </form>
             </div>
             @else
-            <p class="text-gray-500 text-sm"><a href="{{ route('login') }}" class="text-[#2D6A4F]">{{ __('general.login') }}</a> {{ __('general.to_write_review_login_suffix') }}</p>
+            <p class="text-gray-500 text-sm"><a href="{{ route('login') }}" class="text-primary-600">{{ __('general.login') }}</a> {{ __('general.to_write_review_login_suffix') }}</p>
             @endauth
         </div>
     </div>

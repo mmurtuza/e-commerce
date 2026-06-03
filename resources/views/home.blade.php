@@ -30,11 +30,11 @@
             @if($category->image)
                 <img src="{{ Storage::url($category->image) }}" alt="{{ $category->name }}" class="w-16 h-16 object-cover rounded-xl mx-auto mb-3">
             @else
-                <div class="w-16 h-16 bg-[#F8FAF5] rounded-xl mx-auto mb-3 flex items-center justify-center text-3xl">
+                <div class="w-16 h-16 bg-[var(--theme-bg)] rounded-xl mx-auto mb-3 flex items-center justify-center text-3xl">
                     {{ $category->icon ?? '🔌' }}
                 </div>
             @endif
-            <span class="text-sm font-medium text-gray-700 group-hover:text-[#2D6A4F] transition">{{ $category->name }}</span>
+            <span class="text-sm font-medium text-gray-700 group-hover:text-primary-600 transition">{{ $category->name }}</span>
             @if(isset($category->products_count))
                 <span class="block text-xs text-gray-400">{{ $category->products_count }} {{ __('general.items') }}</span>
             @endif
@@ -44,14 +44,14 @@
 </section>
 
 <!-- Featured Products -->
-<section class="bg-[#F8FAF5] py-16">
+<section class="bg-[var(--theme-bg)] py-16">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between mb-10">
             <div>
                 <h2 class="text-3xl font-bold text-gray-800">{{ __('general.featured_plants') }}</h2>
                 <p class="text-gray-500 mt-1">{{ __('general.handpicked_favorites') }}</p>
             </div>
-            <a href="{{ route('shop.index') }}" class="text-[#2D6A4F] font-medium hover:text-[#52B788] transition">{{ __('general.view_all') }} →</a>
+            <a href="{{ route('shop.index') }}" class="text-primary-600 font-medium hover:text-primary-400 transition">{{ __('general.view_all') }} →</a>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
             @foreach($featured as $product)
@@ -68,7 +68,7 @@
             <h2 class="text-3xl font-bold text-gray-800">{{ __('general.new_arrivals') }}</h2>
             <p class="text-gray-500 mt-1">{{ __('general.new_arrivals_subtitle') }}</p>
         </div>
-        <a href="{{ route('shop.index') }}" class="text-[#2D6A4F] font-medium hover:text-[#52B788] transition">{{ __('general.view_all') }} →</a>
+        <a href="{{ route('shop.index') }}" class="text-primary-600 font-medium hover:text-primary-400 transition">{{ __('general.view_all') }} →</a>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
         @foreach($newArrivals as $product)
@@ -79,7 +79,7 @@
 
 <!-- Customer Reviews -->
 @if($reviews->isNotEmpty())
-<section class="bg-[#2D6A4F] py-16 text-white">
+<section class="bg-primary-600 py-16 text-white">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-10">
             <h2 class="text-3xl font-bold">{{ __('general.what_our_customers_say') }}</h2>
@@ -88,12 +88,12 @@
             @foreach($reviews as $review)
             <div class="bg-white/10 backdrop-blur rounded-2xl p-6">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 bg-[#52B788] rounded-full flex items-center justify-center font-bold text-white">
+                    <div class="w-10 h-10 bg-primary-400 rounded-full flex items-center justify-center font-bold text-white">
                         {{ strtoupper(substr($review->user->name, 0, 1)) }}
                     </div>
                     <div>
                         <div class="font-semibold">{{ $review->user->name }}</div>
-                        <div class="text-xs text-[#95D5B2]">{{ $review->product?->name }}</div>
+                        <div class="text-xs text-primary-300">{{ $review->product?->name }}</div>
                     </div>
                 </div>
                 <div class="flex gap-1 mb-3">
@@ -124,13 +124,13 @@
             @if($blog->featured_image)
             <img src="{{ Storage::url($blog->featured_image) }}" alt="{{ $blog->title }}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
             @else
-            <div class="w-full h-48 bg-gradient-to-br from-[#95D5B2] to-[#52B788] flex items-center justify-center text-5xl">💻</div>
+            <div class="w-full h-48 bg-gradient-to-br from-primary-300 to-primary-400 flex items-center justify-center text-5xl">💻</div>
             @endif
             <div class="p-5">
-                <span class="text-xs text-[#52B788] font-medium">{{ $blog->category?->name }}</span>
-                <h3 class="font-bold text-gray-800 mt-1 group-hover:text-[#2D6A4F] transition">{{ $blog->title }}</h3>
+                <span class="text-xs text-primary-400 font-medium">{{ $blog->category?->name }}</span>
+                <h3 class="font-bold text-gray-800 mt-1 group-hover:text-primary-600 transition">{{ $blog->title }}</h3>
                 <p class="text-gray-500 text-sm mt-2 line-clamp-2">{{ $blog->excerpt }}</p>
-                <a href="{{ route('blog.show', $blog->slug) }}" class="inline-block mt-4 text-[#2D6A4F] text-sm font-medium hover:text-[#52B788] transition">
+                <a href="{{ route('blog.show', $blog->slug) }}" class="inline-block mt-4 text-primary-600 text-sm font-medium hover:text-primary-400 transition">
                     {{ __('general.read_more') }} →
                 </a>
             </div>
@@ -141,10 +141,10 @@
 @endif
 
 <!-- Newsletter CTA -->
-<section class="bg-gradient-to-r from-[#2D6A4F] to-[#52B788] py-16 text-white text-center" x-data="{ email: '', msg: '' }">
+<section class="bg-gradient-to-r from-primary-600 to-primary-400 py-16 text-white text-center" x-data="{ email: '', msg: '' }">
     <div class="max-w-xl mx-auto px-4">
         <h2 class="text-3xl font-bold mb-3">{{ __('general.get_tips_in_inbox') }}</h2>
-        <p class="text-[#95D5B2] mb-6">{{ __('general.subscribe_for_offers') }}</p>
+        <p class="text-primary-300 mb-6">{{ __('general.subscribe_for_offers') }}</p>
         <div class="flex gap-2 max-w-md mx-auto">
             <input x-model="email" type="email" placeholder="{{ __('Enter your email') }}"
                 class="flex-1 rounded-l-lg px-4 py-3 text-gray-800 outline-none">
@@ -154,11 +154,11 @@
                     headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                     body: JSON.stringify({email})
                 }).then(r => r.json()).then(d => { msg = d.message; email = ''; });
-            " class="bg-[#8B6914] text-white px-6 py-3 rounded-r-lg font-semibold hover:bg-[#95D5B2] hover:text-[#2D6A4F] transition">
+            " class="bg-[#8B6914] text-white px-6 py-3 rounded-r-lg font-semibold hover:bg-primary-300 hover:text-primary-600 transition">
                 {{ __('general.subscribe') }}
             </button>
         </div>
-        <p x-show="msg" x-text="msg" class="mt-3 text-[#95D5B2] text-sm"></p>
+        <p x-show="msg" x-text="msg" class="mt-3 text-primary-300 text-sm"></p>
     </div>
 </section>
 

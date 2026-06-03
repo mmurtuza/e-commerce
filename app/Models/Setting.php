@@ -35,9 +35,51 @@ class Setting extends Model
 
     public static function set(string $key, mixed $value): void
     {
-        static::updateOrCreate(['key' => $key], ['value' => (string) $value]);
+        $setting = static::where('key', $key)->first();
+
+        if ($setting) {
+            $setting->update(['value' => $value !== null ? (string) $value : null]);
+        } else {
+            $metadata = static::getMetadataForKey($key);
+            static::create([
+                'key' => $key,
+                'value' => $value !== null ? (string) $value : null,
+                'group' => $metadata['group'],
+                'type' => $metadata['type'],
+            ]);
+        }
+
         Cache::forget("setting:{$key}");
     }
+
+    protected static function getMetadataForKey(string $key): array
+    {
+        $map = [
+            'site_name' => ['group' => 'general', 'type' => SettingType::Text],
+            'site_tagline' => ['group' => 'general', 'type' => SettingType::Text],
+            'site_logo' => ['group' => 'general', 'type' => SettingType::Image],
+            'site_favicon' => ['group' => 'general', 'type' => SettingType::Image],
+            'free_shipping_threshold' => ['group' => 'general', 'type' => SettingType::Number],
+            'theme' => ['group' => 'appearance', 'type' => SettingType::Text],
+            'phone' => ['group' => 'contact', 'type' => SettingType::Text],
+            'email' => ['group' => 'contact', 'type' => SettingType::Text],
+            'address' => ['group' => 'contact', 'type' => SettingType::Textarea],
+            'whatsapp' => ['group' => 'contact', 'type' => SettingType::Text],
+            'facebook' => ['group' => 'social', 'type' => SettingType::Text],
+            'instagram' => ['group' => 'social', 'type' => SettingType::Text],
+            'youtube' => ['group' => 'social', 'type' => SettingType::Text],
+            'meta_title' => ['group' => 'seo', 'type' => SettingType::Text],
+            'meta_description' => ['group' => 'seo', 'type' => SettingType::Textarea],
+            'google_analytics_id' => ['group' => 'seo', 'type' => SettingType::Text],
+            'facebook_pixel_id' => ['group' => 'seo', 'type' => SettingType::Text],
+            'cod_enabled' => ['group' => 'payment', 'type' => SettingType::Boolean],
+            'sslcommerz_enabled' => ['group' => 'payment', 'type' => SettingType::Boolean],
+            'stripe_enabled' => ['group' => 'payment', 'type' => SettingType::Boolean],
+        ];
+
+        return $map[$key] ?? ['group' => 'general', 'type' => SettingType::Text];
+    }
+
 
     public function getCastedValue(): mixed
     {

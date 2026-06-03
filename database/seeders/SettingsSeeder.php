@@ -22,6 +22,8 @@ class SettingsSeeder extends Seeder
             ['group' => 'general', 'key' => 'site_logo', 'value' => 'settings/dinajpur_it_logo.png', 'type' => SettingType::Image],
             ['group' => 'general', 'key' => 'site_favicon', 'value' => null, 'type' => SettingType::Image],
             ['group' => 'general', 'key' => 'free_shipping_threshold', 'value' => '1500', 'type' => SettingType::Number],
+            // Appearance
+            ['group' => 'appearance', 'key' => 'theme', 'value' => 'default', 'type' => SettingType::Text],
             // Contact
             ['group' => 'contact', 'key' => 'phone', 'value' => '+880 1712-345678', 'type' => SettingType::Text],
             ['group' => 'contact', 'key' => 'email', 'value' => 'support@dinajpuritpark.com', 'type' => SettingType::Text],
