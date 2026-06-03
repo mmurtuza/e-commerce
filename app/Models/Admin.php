@@ -16,7 +16,7 @@ class Admin extends Authenticatable implements FilamentUser
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'avatar', 'is_super_admin', 'is_active',
+        'name', 'email', 'password', 'password_changed_at', 'avatar', 'is_super_admin', 'is_active',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -27,7 +27,18 @@ class Admin extends Authenticatable implements FilamentUser
             'is_super_admin' => 'boolean',
             'is_active' => 'boolean',
             'password' => 'hashed',
+            'password_changed_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Returns true if the admin has never changed their seeded/default password.
+     * A NULL password_changed_at means the account was just seeded and the
+     * admin must set a new password before accessing the panel.
+     */
+    public function needsPasswordChange(): bool
+    {
+        return is_null($this->password_changed_at);
     }
 
     public function canAccessPanel(Panel $panel): bool

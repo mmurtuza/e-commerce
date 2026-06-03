@@ -13,11 +13,13 @@ use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\ProductResource;
 use App\Filament\Resources\ReviewResource;
 use App\Filament\Pages\Dashboard;
+use App\Filament\Pages\SetPassword;
 use App\Filament\Widgets\AdminWelcome;
 use App\Filament\Widgets\LatestOrdersTable;
 use App\Filament\Widgets\LowStockAlert;
 use App\Filament\Widgets\RevenueChart;
 use App\Filament\Widgets\StatsOverview;
+use App\Http\Middleware\RequireAdminPasswordChange;
 use App\Http\Middleware\SetLocale;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -39,13 +41,17 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        // Build panel path: "{ADMIN_PREFIX}/admin" or just "admin" when prefix is empty
+        $prefix = env('ADMIN_PREFIX', '');
+        $path   = filled($prefix) ? trim($prefix, '/') . '/admin' : 'admin';
+
         return $panel
             ->default()
             ->id("admin")
-            ->path("admin")
+            ->path($path)
             ->login()
             ->colors(["primary" => Color::hex("#2D6A4F")])
-            ->brandName(\App\Models\Setting::get('site_name', 'Dinajpur IT Park') . ' Admin')
+            ->brandName(fn () => \App\Models\Setting::get('site_name', 'Dinajpur IT Park') . ' Admin')
             ->authGuard("admin")
             ->userMenuItems([
                 MenuItem::make()
@@ -75,7 +81,7 @@ class AdminPanelProvider extends PanelProvider
                 BlogResource::class,
                 BannerResource::class,
             ])
-            ->pages([Dashboard::class, \App\Filament\Pages\Settings::class])
+            ->pages([Dashboard::class, \App\Filament\Pages\Settings::class, SetPassword::class])
             ->widgets([
                 AdminWelcome::class,
                 StatsOverview::class,
@@ -95,6 +101,9 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([Authenticate::class]);
+            ->authMiddleware([
+                Authenticate::class,
+                RequireAdminPasswordChange::class,
+            ]);
     }
 }
