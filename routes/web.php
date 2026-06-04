@@ -16,6 +16,9 @@ use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Payment\SslCommerzController;
 use App\Http\Controllers\Payment\BkashController;
+use App\Http\Controllers\Payment\StripeController;
+use App\Http\Controllers\Payment\PaddleController;
+use App\Http\Controllers\Payment\LemonSqueezyController;
 use Illuminate\Support\Facades\Route;
 
 // Language switcher
@@ -98,12 +101,22 @@ Route::prefix('account')->name('customer.')->middleware(['auth', 'verified'])->g
 // Cart item count (AJAX)
 Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
 
-// SSLCommerz callbacks (no CSRF — external POST)
+// External payment callbacks & webhooks (No CSRF)
 Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])->group(function () {
+    // SSLCommerz
     Route::post('/payment/sslcommerz/success', [SslCommerzController::class, 'success'])->name('payment.sslcommerz.success');
     Route::post('/payment/sslcommerz/fail', [SslCommerzController::class, 'fail'])->name('payment.sslcommerz.fail');
     Route::post('/payment/sslcommerz/cancel', [SslCommerzController::class, 'cancel'])->name('payment.sslcommerz.cancel');
     Route::post('/payment/sslcommerz/ipn', [SslCommerzController::class, 'ipn'])->name('payment.sslcommerz.ipn');
+    
+    // Stripe Webhook
+    Route::post('/payment/stripe/webhook', [StripeController::class, 'webhook'])->name('payment.stripe.webhook');
+    
+    // Paddle Webhook
+    Route::post('/payment/paddle/webhook', [PaddleController::class, 'webhook'])->name('payment.paddle.webhook');
+    
+    // Lemon Squeezy Webhook
+    Route::post('/payment/lemonsqueezy/webhook', [LemonSqueezyController::class, 'webhook'])->name('payment.lemonsqueezy.webhook');
 });
 
 // bKash Checkout routes

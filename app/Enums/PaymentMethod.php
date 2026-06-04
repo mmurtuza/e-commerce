@@ -9,6 +9,9 @@ enum PaymentMethod: string
     case Cod = 'cod';
     case SslCommerz = 'sslcommerz';
     case Bkash = 'bkash';
+    case Stripe = 'stripe';
+    case Paddle = 'paddle';
+    case LemonSqueezy = 'lemonsqueezy';
 
     public function label(): string
     {
@@ -16,6 +19,9 @@ enum PaymentMethod: string
             self::Cod => 'Cash on Delivery',
             self::SslCommerz => 'SSLCommerz',
             self::Bkash => 'bKash',
+            self::Stripe => 'Stripe',
+            self::Paddle => 'Paddle',
+            self::LemonSqueezy => 'Lemon Squeezy',
         };
     }
 
@@ -25,6 +31,9 @@ enum PaymentMethod: string
             self::Cod => 'gray',
             self::SslCommerz => 'primary',
             self::Bkash => 'danger',
+            self::Stripe => 'info',
+            self::Paddle => 'warning',
+            self::LemonSqueezy => 'success',
         };
     }
 

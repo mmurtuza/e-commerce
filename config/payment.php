@@ -32,5 +32,27 @@ return [
             'callback_url' => env('BKASH_CALLBACK_URL'),
         ],
 
+        'stripe' => [
+            'enabled' => env('STRIPE_ENABLED', false),
+            'key' => env('STRIPE_KEY'),
+            'secret' => env('STRIPE_SECRET'),
+            'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+        ],
+
+        'paddle' => [
+            'enabled' => env('PADDLE_ENABLED', false),
+            'vendor_id' => env('PADDLE_VENDOR_ID'),
+            'auth_code' => env('PADDLE_AUTH_CODE'),
+            'sandbox' => env('PADDLE_SANDBOX', true),
+            'webhook_secret' => env('PADDLE_WEBHOOK_SECRET'),
+        ],
+
+        'lemonsqueezy' => [
+            'enabled' => env('LEMON_SQUEEZY_ENABLED', false),
+            'api_key' => env('LEMON_SQUEEZY_API_KEY'),
+            'store_id' => env('LEMON_SQUEEZY_STORE_ID'),
+            'webhook_secret' => env('LEMON_SQUEEZY_WEBHOOK_SECRET'),
+        ],
+
     ],
 ];
