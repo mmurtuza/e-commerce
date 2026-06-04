@@ -136,16 +136,20 @@
             <div class="bg-white rounded-2xl p-6 shadow-sm">
                 <h2 class="font-bold text-gray-800 text-xl mb-5">{{ __('general.payment_method') }}</h2>
                 <div class="space-y-3">
+                    @php $firstPayment = true; @endphp
                     @foreach(\App\Enums\PaymentMethod::cases() as $method)
-                    <label class="flex items-center gap-3 p-4 border rounded-xl cursor-pointer hover:border-primary-600 transition has-[:checked]:border-primary-600 has-[:checked]:bg-primary-50">
-                        <input type="radio" name="payment_method" value="{{ $method->value }}" {{ $loop->first ? 'checked' : '' }} required class="text-primary-600">
-                        <div>
-                            <div class="font-semibold text-sm">{{ $method->label() }}</div>
-                            @if($method->value === 'cod')
-                            <div class="text-xs text-gray-500">{{ __('general.cod_description') }}</div>
-                            @endif
-                        </div>
-                    </label>
+                        @if(config("payment.gateways.{$method->value}.enabled", false))
+                        <label class="flex items-center gap-3 p-4 border rounded-xl cursor-pointer hover:border-primary-600 transition has-[:checked]:border-primary-600 has-[:checked]:bg-primary-50">
+                            <input type="radio" name="payment_method" value="{{ $method->value }}" {{ $firstPayment ? 'checked' : '' }} required class="text-primary-600">
+                            <div>
+                                <div class="font-semibold text-sm">{{ $method->label() }}</div>
+                                @if($method->value === 'cod')
+                                <div class="text-xs text-gray-500">{{ __('general.cod_description') }}</div>
+                                @endif
+                            </div>
+                        </label>
+                        @php $firstPayment = false; @endphp
+                        @endif
                     @endforeach
                 </div>
             </div>

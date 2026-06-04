@@ -225,4 +225,5 @@ return [
     'verification_link_resent' => 'একটি নতুন যাচাইকরণ লিঙ্ক পাঠানো হয়েছে।',
     'resend_verification_email' => 'যাচাইকরণ ইমেইল পুনরায় পাঠান',
     'shop_now' => 'এখনই কিনুন',
+    'phone_already_registered' => 'এই ফোন নম্বরটি ইতিমধ্যে নিবন্ধন করা হয়েছে।',
 ];

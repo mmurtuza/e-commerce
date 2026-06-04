@@ -225,4 +225,5 @@ return [
     'verification_link_resent' => 'A new verification link has been sent.',
     'resend_verification_email' => 'Resend Verification Email',
     'shop_now' => 'Shop Now',
+    'phone_already_registered' => 'The phone number is already registered.',
 ];

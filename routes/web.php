@@ -15,6 +15,7 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Payment\SslCommerzController;
+use App\Http\Controllers\Payment\BkashController;
 use Illuminate\Support\Facades\Route;
 
 // Language switcher
@@ -104,6 +105,10 @@ Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
     Route::post('/payment/sslcommerz/cancel', [SslCommerzController::class, 'cancel'])->name('payment.sslcommerz.cancel');
     Route::post('/payment/sslcommerz/ipn', [SslCommerzController::class, 'ipn'])->name('payment.sslcommerz.ipn');
 });
+
+// bKash Checkout routes
+Route::get('/payment/bkash/callback', [BkashController::class, 'callback'])->name('payment.bkash.callback');
+Route::get('/payment/bkash/simulator/{order}', [BkashController::class, 'simulator'])->name('payment.bkash.simulator');
 
 require __DIR__.'/auth.php';
 

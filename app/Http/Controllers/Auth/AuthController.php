@@ -61,8 +61,10 @@ class AuthController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['nullable', 'string', new BdPhone()],
+            'phone' => ['nullable', 'string', 'unique:users,phone', new BdPhone()],
             'password' => ['required', 'confirmed', Password::defaults()],
+        ], [
+            'phone.unique' => __('general.phone_already_registered'),
         ]);
 
         $user = User::create([

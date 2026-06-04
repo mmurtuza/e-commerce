@@ -61,6 +61,7 @@ class Setting extends Model
             'site_favicon' => ['group' => 'general', 'type' => SettingType::Image],
             'free_shipping_threshold' => ['group' => 'general', 'type' => SettingType::Number],
             'theme' => ['group' => 'appearance', 'type' => SettingType::Text],
+            'hero_style' => ['group' => 'appearance', 'type' => SettingType::Text],
             'phone' => ['group' => 'contact', 'type' => SettingType::Text],
             'email' => ['group' => 'contact', 'type' => SettingType::Text],
             'address' => ['group' => 'contact', 'type' => SettingType::Textarea],
@@ -75,6 +76,7 @@ class Setting extends Model
             'cod_enabled' => ['group' => 'payment', 'type' => SettingType::Boolean],
             'sslcommerz_enabled' => ['group' => 'payment', 'type' => SettingType::Boolean],
             'stripe_enabled' => ['group' => 'payment', 'type' => SettingType::Boolean],
+            'bkash_enabled' => ['group' => 'payment', 'type' => SettingType::Boolean],
         ];
 
         return $map[$key] ?? ['group' => 'general', 'type' => SettingType::Text];

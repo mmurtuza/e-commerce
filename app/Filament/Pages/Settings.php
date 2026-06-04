@@ -34,6 +34,7 @@ class Settings extends Page
             'email' => $settings->get('email')?->value ?? '',
             'address' => $settings->get('address')?->value ?? '',
             'theme' => $settings->get('theme')?->value ?? 'default',
+            'hero_style' => $settings->get('hero_style')?->value ?? 'carousel',
         ]);
     }
 
@@ -62,7 +63,15 @@ class Settings extends Page
                             'rose' => 'Rose Gold',
                         ])
                         ->required(),
-                ])->columns(1),
+                    Forms\Components\Select::make('hero_style')
+                        ->label('Site Hero / Slider Style')
+                        ->options([
+                            'carousel' => 'Full Background Carousel',
+                            'split' => 'Modern Split Layout',
+                            'minimal' => 'Centered Minimalist',
+                        ])
+                        ->required(),
+                ])->columns(2),
             ])
             ->statePath('data');
     }

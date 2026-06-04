@@ -24,6 +24,7 @@ class SettingsSeeder extends Seeder
             ['group' => 'general', 'key' => 'free_shipping_threshold', 'value' => '1500', 'type' => SettingType::Number],
             // Appearance
             ['group' => 'appearance', 'key' => 'theme', 'value' => 'default', 'type' => SettingType::Text],
+            ['group' => 'appearance', 'key' => 'hero_style', 'value' => 'carousel', 'type' => SettingType::Text],
             // Contact
             ['group' => 'contact', 'key' => 'phone', 'value' => '+880 1712-345678', 'type' => SettingType::Text],
             ['group' => 'contact', 'key' => 'email', 'value' => 'support@dinajpuritpark.com', 'type' => SettingType::Text],
@@ -42,6 +43,7 @@ class SettingsSeeder extends Seeder
             ['group' => 'payment', 'key' => 'cod_enabled', 'value' => '1', 'type' => SettingType::Boolean],
             ['group' => 'payment', 'key' => 'sslcommerz_enabled', 'value' => '1', 'type' => SettingType::Boolean],
             ['group' => 'payment', 'key' => 'stripe_enabled', 'value' => '0', 'type' => SettingType::Boolean],
+            ['group' => 'payment', 'key' => 'bkash_enabled', 'value' => '1', 'type' => SettingType::Boolean],
         ];
 
         foreach ($settings as $setting) {

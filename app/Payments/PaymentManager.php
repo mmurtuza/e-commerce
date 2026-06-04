@@ -15,10 +15,12 @@ class PaymentManager
     public function __construct(
         private readonly CodGateway $cod,
         private readonly SslCommerzGateway $sslcommerz,
+        private readonly BkashGateway $bkash,
     ) {
         $this->gateways = [
             PaymentMethod::Cod->value => $this->cod,
             PaymentMethod::SslCommerz->value => $this->sslcommerz,
+            PaymentMethod::Bkash->value => $this->bkash,
         ];
     }
 
