@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Dashboard;
+use App\Filament\Pages\SetPassword;
+use App\Filament\Pages\Settings;
 use App\Filament\Resources\BannerResource;
 use App\Filament\Resources\BlogResource;
 use App\Filament\Resources\CategoryResource;
@@ -12,8 +15,6 @@ use App\Filament\Resources\CustomerResource;
 use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\ProductResource;
 use App\Filament\Resources\ReviewResource;
-use App\Filament\Pages\Dashboard;
-use App\Filament\Pages\SetPassword;
 use App\Filament\Widgets\AdminWelcome;
 use App\Filament\Widgets\LatestOrdersTable;
 use App\Filament\Widgets\LowStockAlert;
@@ -21,6 +22,7 @@ use App\Filament\Widgets\RevenueChart;
 use App\Filament\Widgets\StatsOverview;
 use App\Http\Middleware\RequireAdminPasswordChange;
 use App\Http\Middleware\SetLocale;
+use App\Models\Setting;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -43,33 +45,33 @@ class AdminPanelProvider extends PanelProvider
     {
         // Build panel path: "{ADMIN_PREFIX}/admin" or just "admin" when prefix is empty
         $prefix = env('ADMIN_PREFIX', '');
-        $path   = filled($prefix) ? trim($prefix, '/') . '/admin' : 'admin';
+        $path = filled($prefix) ? trim($prefix, '/').'/admin' : 'admin';
 
         return $panel
             ->default()
-            ->id("admin")
+            ->id('admin')
             ->path($path)
             ->login()
-            ->colors(["primary" => Color::hex("#2D6A4F")])
-            ->brandName(fn () => \App\Models\Setting::get('site_name', 'Dinajpur IT Park') . ' Admin')
-            ->authGuard("admin")
+            ->colors(['primary' => Color::hex('#2D6A4F')])
+            ->brandName(fn () => Setting::get('site_name', 'Dinajpur IT Park').' Admin')
+            ->authGuard('admin')
             ->userMenuItems([
                 MenuItem::make()
-                    ->label("English")
-                    ->icon("heroicon-o-language")
-                    ->url("/language/en"),
+                    ->label('English')
+                    ->icon('heroicon-o-language')
+                    ->url('/language/en'),
                 MenuItem::make()
-                    ->label("বাংলা")
-                    ->icon("heroicon-o-language")
-                    ->url("/language/bn"),
+                    ->label('বাংলা')
+                    ->icon('heroicon-o-language')
+                    ->url('/language/bn'),
             ])
             ->navigationGroups([
-                NavigationGroup::make("Catalog"),
-                NavigationGroup::make("Orders"),
-                NavigationGroup::make("Marketing"),
-                NavigationGroup::make("Content"),
-                NavigationGroup::make("Users"),
-                NavigationGroup::make("Settings"),
+                NavigationGroup::make('Catalog'),
+                NavigationGroup::make('Orders'),
+                NavigationGroup::make('Marketing'),
+                NavigationGroup::make('Content'),
+                NavigationGroup::make('Users'),
+                NavigationGroup::make('Settings'),
             ])
             ->resources([
                 ProductResource::class,
@@ -81,7 +83,7 @@ class AdminPanelProvider extends PanelProvider
                 BlogResource::class,
                 BannerResource::class,
             ])
-            ->pages([Dashboard::class, \App\Filament\Pages\Settings::class, SetPassword::class])
+            ->pages([Dashboard::class, Settings::class, SetPassword::class])
             ->widgets([
                 AdminWelcome::class,
                 StatsOverview::class,

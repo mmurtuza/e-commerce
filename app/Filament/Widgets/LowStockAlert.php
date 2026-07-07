@@ -13,7 +13,9 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class LowStockAlert extends BaseWidget
 {
     protected static ?string $heading = 'Low Stock Alert';
+
     protected static ?int $sort = 4;
+
     protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
@@ -43,10 +45,10 @@ class LowStockAlert extends BaseWidget
                 Tables\Columns\TextColumn::make('stock_quantity')
                     ->label('In Stock')
                     ->badge()
-                    ->color(fn (int $state): string => match(true) {
+                    ->color(fn (int $state): string => match (true) {
                         $state === 0 => 'danger',
-                        $state <= 5  => 'warning',
-                        default      => 'primary',
+                        $state <= 5 => 'warning',
+                        default => 'primary',
                     }),
                 Tables\Columns\TextColumn::make('low_stock_threshold')
                     ->label('Threshold')

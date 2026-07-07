@@ -15,7 +15,7 @@ enum PaymentMethod: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Cod => 'Cash on Delivery',
             self::SslCommerz => 'SSLCommerz',
             self::Bkash => 'bKash',
@@ -27,7 +27,7 @@ enum PaymentMethod: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Cod => 'gray',
             self::SslCommerz => 'primary',
             self::Bkash => 'danger',

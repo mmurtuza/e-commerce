@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Payment;
 
 use App\Events\PaymentReceived;
-use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
+use Stripe\Webhook;
 
-class StripeController extends Controller
+class StripeController
 {
     public function webhook(Request $request)
     {
@@ -22,6 +21,7 @@ class StripeController extends Controller
 
         if (empty($endpointSecret)) {
             Log::error('Stripe webhook secret is not set.');
+
             return response()->json(['error' => 'Webhook secret not set'], 500);
         }
 
@@ -49,7 +49,7 @@ class StripeController extends Controller
 
                 $payment->order->update([
                     'payment_status' => 'paid',
-                    'status' => 'confirmed'
+                    'status' => 'confirmed',
                 ]);
 
                 event(new PaymentReceived($payment));

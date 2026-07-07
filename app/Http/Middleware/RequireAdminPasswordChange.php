@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Filament\Pages\SetPassword;
+use App\Models\Admin;
 use Closure;
 use Filament\Facades\Filament;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class RequireAdminPasswordChange
 {
     public function handle(Request $request, Closure $next): Response
     {
-        /** @var \App\Models\Admin|null $admin */
+        /** @var Admin|null $admin */
         $admin = Filament::auth()->user();
 
         if ($admin && $admin->needsPasswordChange()) {

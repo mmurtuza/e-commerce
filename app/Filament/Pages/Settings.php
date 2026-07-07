@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
-use App\Enums\SettingType;
 use App\Models\Setting;
+use App\Rules\BdPhone;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -14,8 +14,11 @@ use Filament\Pages\Page;
 class Settings extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+
     protected static ?string $navigationGroup = 'Settings';
+
     protected static ?string $navigationLabel = 'Site Settings';
+
     protected static ?int $navigationSort = 1;
 
     protected static string $view = 'filament.pages.settings';
@@ -48,7 +51,7 @@ class Settings extends Page
                     Forms\Components\TextInput::make('free_shipping_threshold')->label('Free Shipping Threshold (৳)')->numeric(),
                 ])->columns(2),
                 Forms\Components\Section::make('Contact')->schema([
-                    Forms\Components\TextInput::make('phone')->label('Phone')->rule(new \App\Rules\BdPhone()),
+                    Forms\Components\TextInput::make('phone')->label('Phone')->rule(new BdPhone),
                     Forms\Components\TextInput::make('email')->label('Email')->email(),
                     Forms\Components\Textarea::make('address')->label('Address')->columnSpanFull(),
                 ])->columns(2),

@@ -6,6 +6,7 @@ namespace App\Notifications;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -32,13 +33,11 @@ class OrderStatusNotification extends Notification implements ShouldQueue
             ->greeting("Hello {$notifiable->name}!")
             ->line("Your order **{$this->order->order_number}** status has been updated.")
             ->line("**New Status:** {$this->newStatus->label()}")
-            ->when($this->newStatus === OrderStatus::Shipped, fn ($mail) =>
-                $mail->line("Your order is on its way! 🚚")
+            ->when($this->newStatus === OrderStatus::Shipped, fn ($mail) => $mail->line('Your order is on its way! 🚚')
             )
-            ->when($this->newStatus === OrderStatus::Delivered, fn ($mail) =>
-                $mail->line("Your order has been delivered. Enjoy your premium computer accessories! 💻")
+            ->when($this->newStatus === OrderStatus::Delivered, fn ($mail) => $mail->line('Your order has been delivered. Enjoy your premium computer accessories! 💻')
             )
             ->action('View Order', route('customer.order.show', $this->order->order_number))
-            ->salutation(\App\Models\Setting::get('site_name', 'Dinajpur IT Park') . ' Team 💻');
+            ->salutation(Setting::get('site_name', 'Dinajpur IT Park').' Team 💻');
     }
 }

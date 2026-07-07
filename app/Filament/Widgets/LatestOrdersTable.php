@@ -11,12 +11,13 @@ use App\Models\Order;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Illuminate\Database\Eloquent\Builder;
 
 class LatestOrdersTable extends BaseWidget
 {
     protected static ?string $heading = 'Latest Orders';
+
     protected static ?int $sort = 3;
+
     protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table

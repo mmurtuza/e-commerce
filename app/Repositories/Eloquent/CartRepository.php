@@ -37,6 +37,7 @@ class CartRepository implements CartRepositoryInterface
 
         if ($existing) {
             $existing->increment('quantity', $quantity);
+
             return $existing->fresh();
         }
 
@@ -52,6 +53,7 @@ class CartRepository implements CartRepositoryInterface
     {
         $item = CartItem::findOrFail($cartItemId);
         $item->update(['quantity' => $quantity]);
+
         return $item;
     }
 

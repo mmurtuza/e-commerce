@@ -14,6 +14,7 @@ class CreateProduct extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         unset($data['translations']);
+
         return $data;
     }
 
@@ -21,7 +22,7 @@ class CreateProduct extends CreateRecord
     {
         $record = $this->getRecord();
         $translations = $this->data['translations'] ?? [];
-        
+
         foreach ($translations as $locale => $translationData) {
             $record->setTranslation($locale, $translationData);
         }

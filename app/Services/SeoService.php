@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\Setting;
 
 class SeoService
 {
@@ -51,29 +52,29 @@ class SeoService
         return [
             '@context' => 'https://schema.org',
             '@type' => 'Organization',
-            'name' => \App\Models\Setting::get('site_name', 'Dinajpur IT Park'),
+            'name' => Setting::get('site_name', 'Dinajpur IT Park'),
             'url' => config('app.url'),
-            'description' => \App\Models\Setting::get('meta_description', 'Premium computer accessories shop'),
+            'description' => Setting::get('meta_description', 'Premium computer accessories shop'),
         ];
     }
 
     public function getMetaData(): array
     {
-        $siteName = \App\Models\Setting::get('site_name', 'Dinajpur IT Park');
-        $siteTagline = \App\Models\Setting::get('site_tagline', 'Your Ultimate Destination for Premium Computer Accessories');
-        $defaultMetaTitle = \App\Models\Setting::get('meta_title', $siteName . ' - ' . $siteTagline);
-        $defaultMetaDescription = \App\Models\Setting::get('meta_description', __('general.meta_description_default'));
-        
-        $logo = \App\Models\Setting::get('site_logo');
-        $defaultOgImage = $logo ? asset('storage/' . $logo) : asset('images/og-default.jpg');
-        
+        $siteName = Setting::get('site_name', 'Dinajpur IT Park');
+        $siteTagline = Setting::get('site_tagline', 'Your Ultimate Destination for Premium Computer Accessories');
+        $defaultMetaTitle = Setting::get('meta_title', $siteName.' - '.$siteTagline);
+        $defaultMetaDescription = Setting::get('meta_description', __('general.meta_description_default'));
+
+        $logo = Setting::get('site_logo');
+        $defaultOgImage = $logo ? asset('storage/'.$logo) : asset('images/og-default.jpg');
+
         $view = view();
         $titleSection = $view->getSections()['title'] ?? '';
         $metaDescriptionSection = $view->getSections()['meta_description'] ?? '';
-        
+
         $title = $titleSection ? strip_tags($titleSection) : $defaultMetaTitle;
         $metaDescription = $metaDescriptionSection ? strip_tags($metaDescriptionSection) : $defaultMetaDescription;
-        
+
         $ogTitleSection = $view->getSections()['og_title'] ?? '';
         $ogDescriptionSection = $view->getSections()['og_description'] ?? '';
         $ogImageSection = $view->getSections()['og_image'] ?? '';

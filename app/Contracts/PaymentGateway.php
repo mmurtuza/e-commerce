@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 interface PaymentGateway
 {
     public function initiate(Order $order): array;
+
     public function verify(Request $request): Payment;
+
     public function refund(Payment $payment): bool;
 }

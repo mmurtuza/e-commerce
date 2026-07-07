@@ -9,14 +9,18 @@ use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class PaddleGateway implements PaymentGateway
 {
     private bool $enabled;
+
     private string $vendorId;
+
     private string $authCode;
+
     private bool $isSandbox;
+
     private string $apiUrl;
 
     public function __construct()
@@ -25,10 +29,10 @@ class PaddleGateway implements PaymentGateway
         $this->vendorId = (string) (config('payment.gateways.paddle.vendor_id') ?? '');
         $this->authCode = (string) (config('payment.gateways.paddle.auth_code') ?? '');
         $this->isSandbox = (bool) config('payment.gateways.paddle.sandbox', true);
-        
+
         // Paddle Billing (v2) API URLs
-        $this->apiUrl = $this->isSandbox 
-            ? 'https://sandbox-api.paddle.com' 
+        $this->apiUrl = $this->isSandbox
+            ? 'https://sandbox-api.paddle.com'
             : 'https://api.paddle.com';
     }
 
@@ -44,18 +48,18 @@ class PaddleGateway implements PaymentGateway
                 'items' => [
                     [
                         'price' => [
-                            'description' => 'Order #' . $order->order_number,
+                            'description' => 'Order #'.$order->order_number,
                             'unit_price' => [
                                 'amount' => (int) round($order->total * 100), // Minor units
                                 'currency_code' => 'USD', // Paddle generally requires standard currencies. Ensure USD is ok or map BDT to USD. Paddle does not support BDT natively. We'll use USD for demonstration.
                             ],
                             'product' => [
-                                'name' => 'Order from ' . config('app.name'),
+                                'name' => 'Order from '.config('app.name'),
                                 'tax_category' => 'standard',
                             ],
                         ],
                         'quantity' => 1,
-                    ]
+                    ],
                 ],
                 'custom_data' => [
                     'order_id' => $order->id,
@@ -64,8 +68,8 @@ class PaddleGateway implements PaymentGateway
             ]);
 
         if ($response->failed()) {
-            \Illuminate\Support\Facades\Log::error('Paddle API Error', ['response' => $response->json()]);
-            throw new \RuntimeException('Paddle payment initiation failed: ' . $response->body());
+            Log::error('Paddle API Error', ['response' => $response->json()]);
+            throw new \RuntimeException('Paddle payment initiation failed: '.$response->body());
         }
 
         $transaction = $response->json('data');

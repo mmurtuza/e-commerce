@@ -12,15 +12,18 @@ use Illuminate\Support\Carbon;
 class RevenueChart extends ChartWidget
 {
     protected static ?string $heading = 'Revenue — Last 30 Days';
+
     protected static ?int $sort = 2;
+
     protected int|string|array $columnSpan = 'full';
+
     protected static ?string $maxHeight = '300px';
 
     protected function getData(): array
     {
-        $days   = collect();
+        $days = collect();
         $labels = [];
-        $data   = [];
+        $data = [];
 
         for ($i = 29; $i >= 0; $i--) {
             $date = Carbon::today()->subDays($i);
@@ -43,14 +46,14 @@ class RevenueChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label'                => 'Revenue (৳)',
-                    'data'                 => $data,
-                    'borderColor'          => '#16a34a',
-                    'backgroundColor'      => 'rgba(22, 163, 74, 0.08)',
-                    'fill'                 => true,
-                    'tension'              => 0.4,
+                    'label' => 'Revenue (৳)',
+                    'data' => $data,
+                    'borderColor' => '#16a34a',
+                    'backgroundColor' => 'rgba(22, 163, 74, 0.08)',
+                    'fill' => true,
+                    'tension' => 0.4,
                     'pointBackgroundColor' => '#16a34a',
-                    'pointRadius'          => 3,
+                    'pointRadius' => 3,
                 ],
             ],
             'labels' => $labels,
@@ -76,7 +79,7 @@ class RevenueChart extends ChartWidget
             'scales' => [
                 'y' => [
                     'beginAtZero' => true,
-                    'ticks'       => [
+                    'ticks' => [
                         'callback' => "function(value){ return '৳ ' + value.toLocaleString(); }",
                     ],
                 ],

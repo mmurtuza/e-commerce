@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
-use App\Models\Address;
 use App\Payments\PaymentManager;
 use App\Services\CartService;
 use App\Services\CheckoutService;
@@ -14,7 +12,7 @@ use App\Services\ShippingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-class CheckoutController extends Controller
+class CheckoutController
 {
     public function __construct(
         private readonly CartService $cartService,

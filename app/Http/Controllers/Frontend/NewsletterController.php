@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\SubscribeNewsletterRequest;
 use App\Models\Newsletter;
 use Illuminate\Http\JsonResponse;
 
-class NewsletterController extends Controller
+class NewsletterController
 {
     public function subscribe(SubscribeNewsletterRequest $request): JsonResponse
     {

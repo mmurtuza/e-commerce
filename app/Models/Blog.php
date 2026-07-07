@@ -44,7 +44,7 @@ class Blog extends Model
     public function scopePublished($query): void
     {
         $query->where('is_published', true)
-              ->where(fn ($q) => $q->whereNull('published_at')->orWhere('published_at', '<=', now()));
+            ->where(fn ($q) => $q->whereNull('published_at')->orWhere('published_at', '<=', now()));
     }
 
     public function getTitleAttribute(): ?string

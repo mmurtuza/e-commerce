@@ -17,14 +17,14 @@ class CouponService
     {
         $coupon = $this->couponRepository->findValidByCode($code);
 
-        if (!$coupon) {
+        if (! $coupon) {
             return ['valid' => false, 'message' => 'Invalid or expired coupon code.'];
         }
 
         if ($coupon->min_order_amount && $subtotal < $coupon->min_order_amount) {
             return [
                 'valid' => false,
-                'message' => "Minimum order amount is ৳" . number_format($coupon->min_order_amount, 2),
+                'message' => 'Minimum order amount is ৳'.number_format($coupon->min_order_amount, 2),
             ];
         }
 

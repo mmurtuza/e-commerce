@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Enums\CouponType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class Coupon extends Model
 {
@@ -40,17 +39,25 @@ class Coupon extends Model
 
     public function isValid(): bool
     {
-        if (!$this->is_active) return false;
-        if ($this->starts_at && $this->starts_at->isFuture()) return false;
-        if ($this->expires_at && $this->expires_at->isPast()) return false;
-        if ($this->usage_limit && $this->used_count >= $this->usage_limit) return false;
+        if (! $this->is_active) {
+            return false;
+        }
+        if ($this->starts_at && $this->starts_at->isFuture()) {
+            return false;
+        }
+        if ($this->expires_at && $this->expires_at->isPast()) {
+            return false;
+        }
+        if ($this->usage_limit && $this->used_count >= $this->usage_limit) {
+            return false;
+        }
 
         return true;
     }
 
     public function calculateDiscount(float $subtotal): float
     {
-        $discount = match($this->type) {
+        $discount = match ($this->type) {
             CouponType::Fixed => (float) $this->value,
             CouponType::Percentage => $subtotal * ((float) $this->value / 100),
         };

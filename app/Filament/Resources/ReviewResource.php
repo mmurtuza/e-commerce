@@ -13,7 +13,9 @@ use Filament\Tables\Table;
 class ReviewResource extends Resource
 {
     protected static ?string $model = Review::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-star';
+
     protected static ?string $navigationGroup = 'Catalog';
 
     public static function form(Form $form): Form

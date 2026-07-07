@@ -8,7 +8,6 @@ use App\Contracts\PaymentGateway;
 use App\Events\PaymentReceived;
 use App\Models\Order;
 use App\Models\Payment;
-use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -17,10 +16,15 @@ use Illuminate\Support\Str;
 class BkashGateway implements PaymentGateway
 {
     private bool $enabled;
+
     private string $appKey;
+
     private string $appSecret;
+
     private string $username;
+
     private string $password;
+
     private bool $isSandbox;
 
     public function __construct()
@@ -47,7 +51,7 @@ class BkashGateway implements PaymentGateway
             ? 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized'
             : 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized';
 
-        return "{$base}/" . ltrim($endpoint, '/');
+        return "{$base}/".ltrim($endpoint, '/');
     }
 
     private function getToken(): string
@@ -61,8 +65,8 @@ class BkashGateway implements PaymentGateway
                 'app_secret' => $this->appSecret,
             ]);
 
-            if ($response->failed() || !isset($response->json()['id_token'])) {
-                throw new \RuntimeException('bKash Authentication failed: ' . ($response->json()['statusMessage'] ?? 'Unknown error'));
+            if ($response->failed() || ! isset($response->json()['id_token'])) {
+                throw new \RuntimeException('bKash Authentication failed: '.($response->json()['statusMessage'] ?? 'Unknown error'));
             }
 
             return $response->json()['id_token'];
@@ -72,7 +76,7 @@ class BkashGateway implements PaymentGateway
     public function initiate(Order $order): array
     {
         if ($this->isMock()) {
-            $paymentId = 'MOCK-BKASH-' . strtoupper(Str::random(16));
+            $paymentId = 'MOCK-BKASH-'.strtoupper(Str::random(16));
 
             Payment::create([
                 'order_id' => $order->id,
@@ -92,7 +96,7 @@ class BkashGateway implements PaymentGateway
         $callbackUrl = config('payment.gateways.bkash.callback_url');
         if (empty($callbackUrl)) {
             $callbackUrl = route('payment.bkash.callback');
-        } elseif (!str_starts_with($callbackUrl, 'http')) {
+        } elseif (! str_starts_with($callbackUrl, 'http')) {
             $callbackUrl = url($callbackUrl);
         }
 
@@ -125,7 +129,7 @@ class BkashGateway implements PaymentGateway
             return ['redirect' => $result['bkashURL']];
         }
 
-        throw new \RuntimeException('bKash payment initiation failed: ' . ($result['statusMessage'] ?? 'Unknown error'));
+        throw new \RuntimeException('bKash payment initiation failed: '.($result['statusMessage'] ?? 'Unknown error'));
     }
 
     public function verify(Request $request): Payment
@@ -145,7 +149,7 @@ class BkashGateway implements PaymentGateway
                 'paid_at' => now(),
                 'gateway_response' => array_merge($payment->gateway_response ?? [], [
                     'verified' => true,
-                    'trxID' => 'TRX' . strtoupper(Str::random(10)),
+                    'trxID' => 'TRX'.strtoupper(Str::random(10)),
                 ]),
             ]);
 
@@ -180,12 +184,13 @@ class BkashGateway implements PaymentGateway
             return $payment;
         }
 
-        throw new \RuntimeException('bKash payment execution failed: ' . ($result['statusMessage'] ?? 'Unknown error'));
+        throw new \RuntimeException('bKash payment execution failed: '.($result['statusMessage'] ?? 'Unknown error'));
     }
 
     public function refund(Payment $payment): bool
     {
         $payment->update(['status' => 'refunded']);
+
         return true;
     }
 }

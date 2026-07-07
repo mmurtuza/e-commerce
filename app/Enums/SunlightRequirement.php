@@ -13,7 +13,7 @@ enum SunlightRequirement: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::FullSun => 'Full Sun',
             self::PartialShade => 'Partial Shade',
             self::FullShade => 'Full Shade',
@@ -23,7 +23,7 @@ enum SunlightRequirement: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::FullSun => 'warning',
             self::PartialShade => 'info',
             self::FullShade => 'gray',

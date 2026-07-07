@@ -8,6 +8,7 @@ use App\Models\Coupon;
 use App\Models\Product;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
@@ -28,6 +29,6 @@ Schedule::call(function () {
 // Send low stock alerts daily at 8am
 Schedule::call(function () {
     Product::lowStock()->get()->each(function ($product) {
-        \Illuminate\Support\Facades\Log::warning("Low stock: {$product->name} has {$product->stock_quantity} remaining.");
+        Log::warning("Low stock: {$product->name} has {$product->stock_quantity} remaining.");
     });
 })->dailyAt('08:00')->name('low-stock-alerts');

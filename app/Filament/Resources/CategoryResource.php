@@ -16,8 +16,11 @@ use Illuminate\Support\Str;
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-tag';
+
     protected static ?string $navigationGroup = 'Catalog';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -91,7 +94,7 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->formatStateUsing(function ($state, $record): string {
-                        return $record->parent_id ? '↳ ' . $state : $state;
+                        return $record->parent_id ? '↳ '.$state : $state;
                     })
                     ->searchable(query: function ($query, string $value): void {
                         $query->whereHas('translations', fn ($q) => $q->where('name', 'like', "%{$value}%"));
@@ -158,9 +161,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListCategories::route('/'),
+            'index' => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
-            'edit'   => Pages\EditCategory::route('/{record}/edit'),
+            'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

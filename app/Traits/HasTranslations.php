@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 
 trait HasTranslations
 {
-    public function translate(string $locale = null): ?object
+    public function translate(?string $locale = null): ?object
     {
         $locale = $locale ?? App::getLocale();
         $relation = $this->translations ?? collect();
@@ -18,7 +17,7 @@ trait HasTranslations
             ?? $relation->firstWhere('locale', config('app.fallback_locale', 'en'));
     }
 
-    public function getTranslation(string $field, string $locale = null): ?string
+    public function getTranslation(string $field, ?string $locale = null): ?string
     {
         return $this->translate($locale)?->{$field};
     }
@@ -35,6 +34,6 @@ trait HasTranslations
 
     protected function getTranslationModelClass(): string
     {
-        return static::class . 'Translation';
+        return static::class.'Translation';
     }
 }

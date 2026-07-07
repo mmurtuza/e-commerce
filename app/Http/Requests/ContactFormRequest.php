@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\BdPhone;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ContactFormRequest extends FormRequest
 {
@@ -19,7 +19,7 @@ class ContactFormRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
-            'phone' => ['nullable', 'string', new BdPhone()],
+            'phone' => ['nullable', 'string', new BdPhone],
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:2000'],
         ];

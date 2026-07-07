@@ -114,6 +114,7 @@ class Order extends Model
     public function getShippingFullAddressAttribute(): string
     {
         $addr = $this->shipping_address ?? [];
+
         return implode(', ', array_filter([
             $addr['address_line_1'] ?? null,
             $addr['address_line_2'] ?? null,

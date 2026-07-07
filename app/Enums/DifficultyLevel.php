@@ -12,7 +12,7 @@ enum DifficultyLevel: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Beginner => 'Beginner',
             self::Intermediate => 'Intermediate',
             self::Expert => 'Expert',
@@ -21,7 +21,7 @@ enum DifficultyLevel: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Beginner => 'success',
             self::Intermediate => 'warning',
             self::Expert => 'danger',

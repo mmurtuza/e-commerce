@@ -16,7 +16,7 @@ class CodGateway implements PaymentGateway
     {
         Payment::create([
             'order_id' => $order->id,
-            'transaction_id' => 'COD-' . strtoupper(Str::random(10)),
+            'transaction_id' => 'COD-'.strtoupper(Str::random(10)),
             'payment_method' => 'cod',
             'amount' => $order->total,
             'currency' => 'BDT',
@@ -31,12 +31,14 @@ class CodGateway implements PaymentGateway
     public function verify(Request $request): Payment
     {
         $order = Order::where('order_number', $request->get('order_number'))->firstOrFail();
+
         return $order->payment;
     }
 
     public function refund(Payment $payment): bool
     {
         $payment->update(['status' => 'refunded']);
+
         return true;
     }
 }

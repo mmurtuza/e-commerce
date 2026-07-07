@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\CheckoutGuard;
+use App\Http\Middleware\CleanAmpersands;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,13 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
         $middleware->web(prepend: [
-            \App\Http\Middleware\CleanAmpersands::class,
+            CleanAmpersands::class,
         ]);
         $middleware->web(append: [
-            \App\Http\Middleware\SetLocale::class,
+            SetLocale::class,
         ]);
         $middleware->alias([
-            'checkout.guard' => \App\Http\Middleware\CheckoutGuard::class,
+            'checkout.guard' => CheckoutGuard::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

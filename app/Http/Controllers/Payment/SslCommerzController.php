@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Payment;
 
 use App\Enums\PaymentStatus;
-use App\Http\Controllers\Controller;
-use App\Models\Order;
 use App\Models\Payment;
+use App\Payments\PaymentManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class SslCommerzController extends Controller
+class SslCommerzController
 {
     public function __construct(
-        private readonly \App\Payments\PaymentManager $paymentManager,
+        private readonly PaymentManager $paymentManager,
     ) {}
 
     public function success(Request $request): RedirectResponse
@@ -25,7 +24,7 @@ class SslCommerzController extends Controller
             return redirect()->route('checkout.success', $payment->order->order_number)
                 ->with('success', 'Payment successful!');
         } catch (\Exception $e) {
-            return redirect()->route('checkout.index')->with('error', 'Payment verification failed: ' . $e->getMessage());
+            return redirect()->route('checkout.index')->with('error', 'Payment verification failed: '.$e->getMessage());
         }
     }
 

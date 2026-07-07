@@ -13,7 +13,7 @@ enum WateringFrequency: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Daily => 'Daily',
             self::Weekly => 'Weekly',
             self::Biweekly => 'Every Two Weeks',
@@ -23,7 +23,7 @@ enum WateringFrequency: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Daily => 'info',
             self::Weekly => 'success',
             self::Biweekly => 'warning',

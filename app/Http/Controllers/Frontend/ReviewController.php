@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReviewRequest;
 use App\Models\Review;
 use Illuminate\Http\RedirectResponse;
 
-class ReviewController extends Controller
+class ReviewController
 {
     public function store(StoreReviewRequest $request): RedirectResponse
     {

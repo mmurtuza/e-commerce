@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -24,7 +25,7 @@ class ProductRepository implements ProductRepositoryInterface
     public function getFeatured(int $limit = 8): Collection
     {
         return Product::with(['translations', 'images', 'category.translations'])
-            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating')
+            ->withAvg(['reviews' => fn ($q) => $q->where('is_approved', true)], 'rating')
             ->active()
             ->featured()
             ->latest()
@@ -35,7 +36,7 @@ class ProductRepository implements ProductRepositoryInterface
     public function getNewArrivals(int $limit = 8): Collection
     {
         return Product::with(['translations', 'images', 'category.translations'])
-            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating')
+            ->withAvg(['reviews' => fn ($q) => $q->where('is_approved', true)], 'rating')
             ->active()
             ->newArrivals()
             ->latest()
@@ -46,7 +47,7 @@ class ProductRepository implements ProductRepositoryInterface
     public function getByCategory(int $categoryId, array $filters = [], int $perPage = 16): LengthAwarePaginator
     {
         // Include products from the category itself and all its subcategories
-        $childIds = \App\Models\Category::where('parent_id', $categoryId)->pluck('id');
+        $childIds = Category::where('parent_id', $categoryId)->pluck('id');
         $categoryIds = $childIds->prepend($categoryId)->toArray();
 
         $query = Product::with(['translations', 'images', 'category.translations'])
@@ -95,23 +96,23 @@ class ProductRepository implements ProductRepositoryInterface
 
     private function applyFilters($query, array $filters): void
     {
-        if (!empty($filters['min_price'])) {
+        if (! empty($filters['min_price'])) {
             $query->where('price', '>=', $filters['min_price']);
         }
-        if (!empty($filters['max_price'])) {
+        if (! empty($filters['max_price'])) {
             $query->where('price', '<=', $filters['max_price']);
         }
-        if (!empty($filters['plant_type'])) {
+        if (! empty($filters['plant_type'])) {
             $query->where('plant_type', $filters['plant_type']);
         }
-        if (!empty($filters['sunlight'])) {
+        if (! empty($filters['sunlight'])) {
             $query->where('sunlight', $filters['sunlight']);
         }
-        if (!empty($filters['difficulty'])) {
+        if (! empty($filters['difficulty'])) {
             $query->where('difficulty', $filters['difficulty']);
         }
-        if (!empty($filters['sort'])) {
-            match($filters['sort']) {
+        if (! empty($filters['sort'])) {
+            match ($filters['sort']) {
                 'price_asc' => $query->orderBy('price'),
                 'price_desc' => $query->orderByDesc('price'),
                 'newest' => $query->latest(),

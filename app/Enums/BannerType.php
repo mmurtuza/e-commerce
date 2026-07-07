@@ -12,7 +12,7 @@ enum BannerType: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::HeroSlider => 'Hero Slider',
             self::Popup => 'Popup Banner',
             self::Promotional => 'Promotional Banner',
@@ -21,7 +21,7 @@ enum BannerType: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::HeroSlider => 'primary',
             self::Popup => 'warning',
             self::Promotional => 'success',

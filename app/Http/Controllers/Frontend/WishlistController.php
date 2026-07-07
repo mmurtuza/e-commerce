@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Wishlist;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class WishlistController extends Controller
+class WishlistController
 {
-
-
     public function index(): View
     {
         $wishlists = auth()->user()->wishlists()->with('product.translations', 'product.images')->get();
+
         return view('customer.wishlist', compact('wishlists'));
     }
 
@@ -30,6 +28,7 @@ class WishlistController extends Controller
 
         if ($existing) {
             $existing->delete();
+
             return response()->json(['added' => false, 'message' => 'Removed from wishlist']);
         }
 

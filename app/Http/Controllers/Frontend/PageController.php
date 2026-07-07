@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
@@ -12,12 +11,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
-class PageController extends Controller
+class PageController
 {
     public function about(): View
     {
         return view('pages.about', [
-            'page' => Page::where('slug', 'about')->firstOrFail()
+            'page' => Page::where('slug', 'about')->firstOrFail(),
         ]);
     }
 
@@ -33,8 +32,8 @@ class PageController extends Controller
     public function contactSubmit(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'name'    => 'required|string|max:100',
-            'email'   => 'required|email|max:150',
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:150',
             'subject' => 'required|string|max:200',
             'message' => 'required|string|max:2000',
         ]);
@@ -44,7 +43,7 @@ class PageController extends Controller
             Mail::raw(
                 "Name: {$data['name']}\nEmail: {$data['email']}\n\n{$data['message']}",
                 fn ($m) => $m->to(Setting::get('email', 'support@dinajpuritpark.com'))
-                             ->subject('Contact: ' . $data['subject'])
+                    ->subject('Contact: '.$data['subject'])
             );
         } catch (\Throwable) {
             // Silently fail if mail not configured in dev
@@ -56,28 +55,28 @@ class PageController extends Controller
     public function faq(): View
     {
         return view('pages.faq', [
-            'page' => Page::where('slug', 'faq')->firstOrFail()
+            'page' => Page::where('slug', 'faq')->firstOrFail(),
         ]);
     }
 
     public function terms(): View
     {
         return view('pages.terms', [
-            'page' => Page::where('slug', 'terms')->firstOrFail()
+            'page' => Page::where('slug', 'terms')->firstOrFail(),
         ]);
     }
 
     public function privacy(): View
     {
         return view('pages.privacy', [
-            'page' => Page::where('slug', 'privacy')->firstOrFail()
+            'page' => Page::where('slug', 'privacy')->firstOrFail(),
         ]);
     }
 
     public function returnPolicy(): View
     {
         return view('pages.return-policy', [
-            'page' => Page::where('slug', 'return-policy')->firstOrFail()
+            'page' => Page::where('slug', 'return-policy')->firstOrFail(),
         ]);
     }
 }

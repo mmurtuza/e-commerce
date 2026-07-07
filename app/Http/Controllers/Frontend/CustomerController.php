@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Address;
 use App\Repositories\Contracts\OrderRepositoryInterface;
+use App\Rules\BdPhone;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
-use App\Rules\BdPhone;
 
-class CustomerController extends Controller
+class CustomerController
 {
     public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,
@@ -24,6 +23,7 @@ class CustomerController extends Controller
     public function dashboard(): View
     {
         $user = auth()->user();
+
         return view('customer.dashboard', [
             'recentOrders' => $this->orderRepository->getByUser($user->id, 5),
         ]);
@@ -68,6 +68,7 @@ class CustomerController extends Controller
     public function changePassword(ChangePasswordRequest $request): RedirectResponse
     {
         auth()->user()->update(['password' => Hash::make($request->validated('password'))]);
+
         return back()->with('success', 'Password changed successfully.');
     }
 
@@ -81,7 +82,7 @@ class CustomerController extends Controller
         $validated = $request->validate([
             'label' => 'required|string',
             'full_name' => 'required|string|max:255',
-            'phone' => ['required', 'string', new BdPhone()],
+            'phone' => ['required', 'string', new BdPhone],
             'address_line_1' => 'required|string|max:255',
             'address_line_2' => 'nullable|string|max:255',
             'city' => 'required|string|max:100',
@@ -107,7 +108,7 @@ class CustomerController extends Controller
         $validated = $request->validate([
             'label' => 'required|string',
             'full_name' => 'required|string|max:255',
-            'phone' => ['required', 'string', new BdPhone()],
+            'phone' => ['required', 'string', new BdPhone],
             'address_line_1' => 'required|string|max:255',
             'address_line_2' => 'nullable|string|max:255',
             'city' => 'required|string|max:100',
@@ -130,6 +131,7 @@ class CustomerController extends Controller
     {
         abort_if($address->user_id !== auth()->id(), 403);
         $address->delete();
+
         return back()->with('success', 'Address removed successfully.');
     }
 }

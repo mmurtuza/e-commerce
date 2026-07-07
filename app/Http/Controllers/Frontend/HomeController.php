@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Review;
@@ -12,7 +11,7 @@ use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\View\View;
 
-class HomeController extends Controller
+class HomeController
 {
     public function __construct(
         private readonly ProductRepositoryInterface $productRepository,

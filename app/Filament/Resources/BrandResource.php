@@ -17,8 +17,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-tag';
+
     protected static ?string $navigationGroup = 'Catalog';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -59,7 +62,7 @@ class BrandResource extends Resource
                         ->disk('public')
                         ->directory('brands'),
                 ]),
-            ])->columnSpanFull()
+            ])->columnSpanFull(),
         ]);
     }
 

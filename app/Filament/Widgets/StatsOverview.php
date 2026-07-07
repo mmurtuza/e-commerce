@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
 class StatsOverview extends BaseWidget
 {
     protected static ?int $sort = 1;
+
     protected int|string|array $columnSpan = 'full';
 
     protected function getStats(): array
@@ -61,10 +62,10 @@ class StatsOverview extends BaseWidget
                         ->toArray()
                 ),
 
-            Stat::make("Today's Revenue", '৳' . number_format((float) $todayRevenue, 2))
+            Stat::make("Today's Revenue", '৳'.number_format((float) $todayRevenue, 2))
                 ->description($revenueChange >= 0
                     ? "{$revenueChange}% increase from yesterday"
-                    : abs($revenueChange) . "% decrease from yesterday")
+                    : abs($revenueChange).'% decrease from yesterday')
                 ->descriptionIcon($revenueChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($revenueChange >= 0 ? 'success' : 'danger')
                 ->chart(

@@ -17,10 +17,10 @@ class AdminSeeder extends Seeder
         Admin::firstOrCreate(
             ['email' => 'admin@murtuza.dev'],
             [
-                'name'                => 'Super Admin',
-                'password'            => Hash::make('password'),
-                'is_super_admin'      => true,
-                'is_active'           => true,
+                'name' => 'Super Admin',
+                'password' => Hash::make('password'),
+                'is_super_admin' => true,
+                'is_active' => true,
                 'password_changed_at' => null,
             ]
         );

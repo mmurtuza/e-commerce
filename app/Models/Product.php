@@ -12,6 +12,7 @@ use App\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -64,7 +65,7 @@ class Product extends Model
         return $this->hasMany(ProductImage::class)->orderBy('sort_order');
     }
 
-    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
@@ -112,7 +113,7 @@ class Product extends Model
     public function scopeLowStock($query): void
     {
         $query->whereColumn('stock_quantity', '<=', 'low_stock_threshold')
-              ->where('stock_quantity', '>', 0);
+            ->where('stock_quantity', '>', 0);
     }
 
     public function getNameAttribute(): ?string
@@ -137,12 +138,12 @@ class Product extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        return '৳' . number_format((float) $this->price, 2);
+        return '৳'.number_format((float) $this->price, 2);
     }
 
     public function getDiscountPercentageAttribute(): int
     {
-        if (!$this->compare_price || $this->compare_price <= $this->price) {
+        if (! $this->compare_price || $this->compare_price <= $this->price) {
             return 0;
         }
 
@@ -154,6 +155,7 @@ class Product extends Model
         if (array_key_exists('reviews_avg_rating', $this->attributes)) {
             return round((float) ($this->attributes['reviews_avg_rating'] ?? 0), 1);
         }
+
         return round($this->reviews()->where('is_approved', true)->avg('rating') ?? 0, 1);
     }
 

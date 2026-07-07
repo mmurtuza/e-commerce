@@ -18,7 +18,7 @@ enum OrderStatus: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Pending => 'Pending',
             self::Confirmed => 'Confirmed',
             self::Processing => 'Processing',
@@ -33,7 +33,7 @@ enum OrderStatus: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Pending => 'warning',
             self::Confirmed => 'info',
             self::Processing => 'primary',
@@ -56,7 +56,7 @@ enum OrderStatus: string
     /** @return self[] */
     public function allowedTransitions(): array
     {
-        return match($this) {
+        return match ($this) {
             self::Pending => [self::Confirmed, self::Cancelled],
             self::Confirmed => [self::Processing, self::Cancelled],
             self::Processing => [self::Shipped, self::Cancelled],

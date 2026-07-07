@@ -18,20 +18,23 @@ use Illuminate\Support\Str;
 class BlogResource extends Resource
 {
     protected static ?string $model = Blog::class;
-    protected static ?string $navigationIcon = "heroicon-o-document-text";
-    protected static ?string $navigationGroup = "Content";
+
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
+    protected static ?string $navigationGroup = 'Content';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make("Blog Content")->schema([
-                Forms\Components\Tabs::make("Translations")->tabs([
-                    Forms\Components\Tabs\Tab::make("English")->schema([
+            Forms\Components\Section::make('Blog Content')->schema([
+                Forms\Components\Tabs::make('Translations')->tabs([
+                    Forms\Components\Tabs\Tab::make('English')->schema([
                         Forms\Components\TextInput::make(
-                            "translations.en.title",
+                            'translations.en.title',
                         )
-                            ->label("Title (English)")
+                            ->label('Title (English)')
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
@@ -40,77 +43,77 @@ class BlogResource extends Resource
                                 ?string $state,
                                 Forms\Set $set,
                             ): void {
-                                if ($operation === "create" && $state) {
-                                    $set("slug", Str::slug($state));
+                                if ($operation === 'create' && $state) {
+                                    $set('slug', Str::slug($state));
                                 }
                             }),
                         Forms\Components\Textarea::make(
-                            "translations.en.excerpt",
+                            'translations.en.excerpt',
                         )
-                            ->label("Excerpt (English)")
+                            ->label('Excerpt (English)')
                             ->rows(2)
                             ->maxLength(500),
                         Forms\Components\RichEditor::make(
-                            "translations.en.content",
+                            'translations.en.content',
                         )
-                            ->label("Content (English)")
+                            ->label('Content (English)')
                             ->columnSpanFull(),
                     ]),
-                    Forms\Components\Tabs\Tab::make("বাংলা")->schema([
+                    Forms\Components\Tabs\Tab::make('বাংলা')->schema([
                         Forms\Components\TextInput::make(
-                            "translations.bn.title",
+                            'translations.bn.title',
                         )
-                            ->label("শিরোনাম (বাংলা)")
+                            ->label('শিরোনাম (বাংলা)')
                             ->maxLength(255),
                         Forms\Components\Textarea::make(
-                            "translations.bn.excerpt",
+                            'translations.bn.excerpt',
                         )
-                            ->label("সারসংক্ষেপ (বাংলা)")
+                            ->label('সারসংক্ষেপ (বাংলা)')
                             ->rows(2)
                             ->maxLength(500),
                         Forms\Components\RichEditor::make(
-                            "translations.bn.content",
+                            'translations.bn.content',
                         )
-                            ->label("বিষয়বস্তু (বাংলা)")
+                            ->label('বিষয়বস্তু (বাংলা)')
                             ->columnSpanFull(),
                     ]),
                 ]),
             ]),
 
-            Forms\Components\Section::make("Publishing Details")->schema([
+            Forms\Components\Section::make('Publishing Details')->schema([
                 Forms\Components\Grid::make(2)->schema([
-                    Forms\Components\TextInput::make("slug")
-                        ->label("Slug")
+                    Forms\Components\TextInput::make('slug')
+                        ->label('Slug')
                         ->required()
                         ->maxLength(255)
-                        ->unique(Blog::class, "slug", ignoreRecord: true),
-                    Forms\Components\Select::make("blog_category_id")
-                        ->label("Category")
+                        ->unique(Blog::class, 'slug', ignoreRecord: true),
+                    Forms\Components\Select::make('blog_category_id')
+                        ->label('Category')
                         ->options(
-                            BlogCategory::with("translations")
+                            BlogCategory::with('translations')
                                 ->get()
-                                ->pluck("name", "id"),
+                                ->pluck('name', 'id'),
                         )
                         ->searchable()
                         ->nullable(),
                 ]),
-                Forms\Components\FileUpload::make("featured_image")
-                    ->label("Featured Image")
+                Forms\Components\FileUpload::make('featured_image')
+                    ->label('Featured Image')
                     ->image()
-                    ->directory("blog")
+                    ->directory('blog')
                     ->maxSize(4096)
-                    ->imagePreviewHeight("150"),
+                    ->imagePreviewHeight('150'),
                 Forms\Components\Grid::make(2)->schema([
-                    Forms\Components\Toggle::make("is_published")
-                        ->label("Published")
+                    Forms\Components\Toggle::make('is_published')
+                        ->label('Published')
                         ->default(false)
                         ->live(),
-                    Forms\Components\DateTimePicker::make("published_at")
-                        ->label("Publish At")
+                    Forms\Components\DateTimePicker::make('published_at')
+                        ->label('Publish At')
                         ->nullable()
                         ->visible(
-                            fn(Forms\Get $get): bool => (bool) $get(
-                                "is_published",
+                            fn (Forms\Get $get): bool => (bool) $get(
+                                'is_published',
                             ),
                         ),
                 ]),
@@ -122,18 +125,18 @@ class BlogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make("featured_image")
-                    ->label("Image")
-                    ->defaultImageUrl(asset("images/placeholder.png")),
-                Tables\Columns\TextColumn::make("title")
-                    ->label("Title")
+                Tables\Columns\ImageColumn::make('featured_image')
+                    ->label('Image')
+                    ->defaultImageUrl(asset('images/placeholder.png')),
+                Tables\Columns\TextColumn::make('title')
+                    ->label('Title')
                     ->searchable(
                         query: function ($query, string $value): void {
                             $query->whereHas(
-                                "translations",
-                                fn($q) => $q->where(
-                                    "title",
-                                    "like",
+                                'translations',
+                                fn ($q) => $q->where(
+                                    'title',
+                                    'like',
                                     "%{$value}%",
                                 ),
                             );
@@ -141,40 +144,40 @@ class BlogResource extends Resource
                     )
                     ->limit(50)
                     ->sortable(),
-                Tables\Columns\TextColumn::make("category.name")
-                    ->label("Category")
-                    ->default("—")
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Category')
+                    ->default('—')
                     ->sortable(),
-                Tables\Columns\TextColumn::make("slug")
-                    ->label("Slug")
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\ToggleColumn::make("is_published")->label(
-                    "Published",
+                Tables\Columns\ToggleColumn::make('is_published')->label(
+                    'Published',
                 ),
-                Tables\Columns\TextColumn::make("published_at")
-                    ->label("Published At")
-                    ->dateTime("d M Y")
-                    ->placeholder("—")
+                Tables\Columns\TextColumn::make('published_at')
+                    ->label('Published At')
+                    ->dateTime('d M Y')
+                    ->placeholder('—')
                     ->sortable(),
-                Tables\Columns\TextColumn::make("created_at")
-                    ->label("Created")
-                    ->dateTime("d M Y")
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created')
+                    ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort("created_at", "desc")
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                Tables\Filters\TernaryFilter::make("is_published")
-                    ->label("Published Status")
-                    ->trueLabel("Published")
-                    ->falseLabel("Draft"),
-                Tables\Filters\SelectFilter::make("blog_category_id")
-                    ->label("Category")
+                Tables\Filters\TernaryFilter::make('is_published')
+                    ->label('Published Status')
+                    ->trueLabel('Published')
+                    ->falseLabel('Draft'),
+                Tables\Filters\SelectFilter::make('blog_category_id')
+                    ->label('Category')
                     ->options(
-                        BlogCategory::with("translations")
+                        BlogCategory::with('translations')
                             ->get()
-                            ->pluck("name", "id"),
+                            ->pluck('name', 'id'),
                     ),
             ])
             ->actions([
@@ -183,22 +186,22 @@ class BlogResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make("publish")
-                        ->label("Publish Selected")
-                        ->icon("heroicon-o-eye")
-                        ->color("success")
+                    Tables\Actions\BulkAction::make('publish')
+                        ->label('Publish Selected')
+                        ->icon('heroicon-o-eye')
+                        ->color('success')
                         ->action(
-                            fn($records) => $records->each->update([
-                                "is_published" => true,
+                            fn ($records) => $records->each->update([
+                                'is_published' => true,
                             ]),
                         ),
-                    Tables\Actions\BulkAction::make("unpublish")
-                        ->label("Unpublish Selected")
-                        ->icon("heroicon-o-eye-slash")
-                        ->color("warning")
+                    Tables\Actions\BulkAction::make('unpublish')
+                        ->label('Unpublish Selected')
+                        ->icon('heroicon-o-eye-slash')
+                        ->color('warning')
                         ->action(
-                            fn($records) => $records->each->update([
-                                "is_published" => false,
+                            fn ($records) => $records->each->update([
+                                'is_published' => false,
                             ]),
                         ),
                     Tables\Actions\DeleteBulkAction::make(),
@@ -209,14 +212,14 @@ class BlogResource extends Resource
     public static function getPages(): array
     {
         return [
-            "index" => Pages\ListBlogs::route("/"),
-            "create" => Pages\CreateBlog::route("/create"),
-            "edit" => Pages\EditBlog::route("/{record}/edit"),
+            'index' => Pages\ListBlogs::route('/'),
+            'create' => Pages\CreateBlog::route('/create'),
+            'edit' => Pages\EditBlog::route('/{record}/edit'),
         ];
     }
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(["category", "translations"]);
+        return parent::getEloquentQuery()->with(['category', 'translations']);
     }
 }

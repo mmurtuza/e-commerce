@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class ShopController extends Controller
+class ShopController
 {
     public function __construct(
         private readonly ProductRepositoryInterface $productRepository,
@@ -34,17 +33,17 @@ class ShopController extends Controller
             : null;
 
         // If browsing a parent, its children are the subcategories to show as tabs
-        $subcategories = ($category && !$category->parent_id)
+        $subcategories = ($category && ! $category->parent_id)
             ? $category->children()->with('translations')->active()->orderBy('sort_order')->get()
             : collect();
 
         return view('shop.index', [
-            'products'        => $products,
-            'categories'      => $this->categoryRepository->getTree(),
+            'products' => $products,
+            'categories' => $this->categoryRepository->getTree(),
             'currentCategory' => $category,
-            'parentCategory'  => $parentCategory,
-            'subcategories'   => $subcategories,
-            'filters'         => $filters,
+            'parentCategory' => $parentCategory,
+            'subcategories' => $subcategories,
+            'filters' => $filters,
         ]);
     }
 
@@ -52,7 +51,7 @@ class ShopController extends Controller
     {
         $product = $this->productRepository->findBySlug($slug);
 
-        abort_if(!$product || !$product->is_active, 404);
+        abort_if(! $product || ! $product->is_active, 404);
 
         return view('shop.show', [
             'product' => $product,

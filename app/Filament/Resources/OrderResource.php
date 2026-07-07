@@ -19,8 +19,11 @@ use Illuminate\Database\Eloquent\Builder;
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+
     protected static ?string $navigationGroup = 'Sales';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -132,11 +135,12 @@ class OrderResource extends Resource
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
                         if ($data['from'] ?? null) {
-                            $indicators[] = Tables\Filters\Indicator::make('From ' . $data['from'])->removeField('from');
+                            $indicators[] = Tables\Filters\Indicator::make('From '.$data['from'])->removeField('from');
                         }
                         if ($data['until'] ?? null) {
-                            $indicators[] = Tables\Filters\Indicator::make('Until ' . $data['until'])->removeField('until');
+                            $indicators[] = Tables\Filters\Indicator::make('Until '.$data['until'])->removeField('until');
                         }
+
                         return $indicators;
                     }),
             ])
@@ -165,9 +169,9 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListOrders::route('/'),
+            'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
-            'edit'   => Pages\EditOrder::route('/{record}/edit'),
+            'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 

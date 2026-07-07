@@ -164,7 +164,7 @@ class ProductSeeder extends Seeder
                     'name' => $data['name_en'],
                     'short_description' => $data['desc_en'],
                     'description' => "<p>{$data['desc_en']}</p><h4>Specifications</h4><ul><li>Brand Official Product</li><li>Quality Guaranteed</li><li>Excellent Ergonomics & Durability</li></ul>",
-                    'care_instructions' => "Keep clean and dry. Avoid spills. Plug carefully.",
+                    'care_instructions' => 'Keep clean and dry. Avoid spills. Plug carefully.',
                     'meta_title' => "Buy {$data['name_en']} Online | Dinajpur IT Park",
                     'meta_description' => "Get your hands on {$data['name_en']} at the best rates in Bangladesh. Order now from Dinajpur IT Park.",
                 ],
@@ -173,7 +173,7 @@ class ProductSeeder extends Seeder
                     'name' => $data['name_bn'],
                     'short_description' => $data['desc_bn'],
                     'description' => "<p>{$data['desc_bn']}</p><h4>স্পেসিফিকেশন</h4><ul><li>অফিসিয়াল প্রোডাক্ট</li><li>গুনগত মান সম্পন্ন</li><li>চমৎকার এর্গোনমিক্স ও স্থায়িত্ব</li></ul>",
-                    'care_instructions' => "পরিষ্কার ও শুষ্ক রাখুন। তরল পদার্থ থেকে দূরে রাখুন। সাবধানে প্লাগ করুন।",
+                    'care_instructions' => 'পরিষ্কার ও শুষ্ক রাখুন। তরল পদার্থ থেকে দূরে রাখুন। সাবধানে প্লাগ করুন।',
                 ],
             ]);
         }

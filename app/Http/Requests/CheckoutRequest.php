@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\PaymentMethod;
+use App\Rules\BdPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Rules\BdPhone;
 
 class CheckoutRequest extends FormRequest
 {
@@ -20,7 +20,7 @@ class CheckoutRequest extends FormRequest
     {
         return [
             'full_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', new BdPhone()],
+            'phone' => ['required', 'string', new BdPhone],
             'address_line_1' => ['required', 'string', 'max:255'],
             'address_line_2' => ['nullable', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:100'],

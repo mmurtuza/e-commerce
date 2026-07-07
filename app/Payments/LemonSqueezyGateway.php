@@ -9,12 +9,16 @@ use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class LemonSqueezyGateway implements PaymentGateway
 {
     private bool $enabled;
+
     private string $apiKey;
+
     private string $storeId;
+
     private string $apiUrl = 'https://api.lemonsqueezy.com/v1';
 
     public function __construct()
@@ -45,31 +49,31 @@ class LemonSqueezyGateway implements PaymentGateway
                         ],
                         'custom_price' => (int) round($order->total * 100), // Minor units
                         'product_options' => [
-                            'name' => 'Order #' . $order->order_number,
-                            'description' => 'Payment for order from ' . config('app.name'),
+                            'name' => 'Order #'.$order->order_number,
+                            'description' => 'Payment for order from '.config('app.name'),
                             'redirect_url' => route('checkout.success', ['orderNumber' => $order->order_number]),
-                        ]
+                        ],
                     ],
                     'relationships' => [
                         'store' => [
                             'data' => [
                                 'type' => 'stores',
                                 'id' => (string) $this->storeId,
-                            ]
+                            ],
                         ],
                         'variant' => [
                             'data' => [
                                 'type' => 'variants',
                                 'id' => '1', // You typically need a generic custom variant ID here or omit it if your store settings allow pure custom prices without variants. Lemon Squeezy usually requires a generic variant for custom prices. For this example, we assume variant ID '1' is configured as a generic "Custom Amount" variant.
-                            ]
-                        ]
-                    ]
-                ]
+                            ],
+                        ],
+                    ],
+                ],
             ]);
 
         if ($response->failed()) {
-            \Illuminate\Support\Facades\Log::error('Lemon Squeezy API Error', ['response' => $response->json()]);
-            throw new \RuntimeException('Lemon Squeezy payment initiation failed: ' . $response->body());
+            Log::error('Lemon Squeezy API Error', ['response' => $response->json()]);
+            throw new \RuntimeException('Lemon Squeezy payment initiation failed: '.$response->body());
         }
 
         $checkout = $response->json('data');

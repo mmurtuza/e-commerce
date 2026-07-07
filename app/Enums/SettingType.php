@@ -15,7 +15,7 @@ enum SettingType: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Text => 'Text',
             self::Textarea => 'Textarea',
             self::Number => 'Number',

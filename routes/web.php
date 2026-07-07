@@ -9,16 +9,17 @@ use App\Http\Controllers\Frontend\CustomerController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\NewsletterController;
+use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShopController;
-use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\WishlistController;
-use App\Http\Controllers\Payment\SslCommerzController;
 use App\Http\Controllers\Payment\BkashController;
-use App\Http\Controllers\Payment\StripeController;
-use App\Http\Controllers\Payment\PaddleController;
 use App\Http\Controllers\Payment\LemonSqueezyController;
+use App\Http\Controllers\Payment\PaddleController;
+use App\Http\Controllers\Payment\SslCommerzController;
+use App\Http\Controllers\Payment\StripeController;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Route;
 
 // Language switcher
@@ -102,19 +103,19 @@ Route::prefix('account')->name('customer.')->middleware(['auth', 'verified'])->g
 Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
 
 // External payment callbacks & webhooks (No CSRF)
-Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])->group(function () {
+Route::withoutMiddleware([PreventRequestForgery::class])->group(function () {
     // SSLCommerz
     Route::post('/payment/sslcommerz/success', [SslCommerzController::class, 'success'])->name('payment.sslcommerz.success');
     Route::post('/payment/sslcommerz/fail', [SslCommerzController::class, 'fail'])->name('payment.sslcommerz.fail');
     Route::post('/payment/sslcommerz/cancel', [SslCommerzController::class, 'cancel'])->name('payment.sslcommerz.cancel');
     Route::post('/payment/sslcommerz/ipn', [SslCommerzController::class, 'ipn'])->name('payment.sslcommerz.ipn');
-    
+
     // Stripe Webhook
     Route::post('/payment/stripe/webhook', [StripeController::class, 'webhook'])->name('payment.stripe.webhook');
-    
+
     // Paddle Webhook
     Route::post('/payment/paddle/webhook', [PaddleController::class, 'webhook'])->name('payment.paddle.webhook');
-    
+
     // Lemon Squeezy Webhook
     Route::post('/payment/lemonsqueezy/webhook', [LemonSqueezyController::class, 'webhook'])->name('payment.lemonsqueezy.webhook');
 });
@@ -124,4 +125,3 @@ Route::get('/payment/bkash/callback', [BkashController::class, 'callback'])->nam
 Route::get('/payment/bkash/simulator/{order}', [BkashController::class, 'simulator'])->name('payment.bkash.simulator');
 
 require __DIR__.'/auth.php';
-

@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Payment;
 
 use App\Events\PaymentReceived;
-use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class LemonSqueezyController extends Controller
+class LemonSqueezyController
 {
     public function webhook(Request $request)
     {
         $secret = config('payment.gateways.lemonsqueezy.webhook_secret');
-        
+
         if (empty($secret)) {
             Log::error('Lemon Squeezy webhook secret is not set.');
+
             return response()->json(['error' => 'Webhook secret not set'], 500);
         }
 
@@ -26,7 +26,7 @@ class LemonSqueezyController extends Controller
 
         $hash = hash_hmac('sha256', $payload, $secret);
 
-        if (!hash_equals($hash, $signature)) {
+        if (! hash_equals($hash, $signature)) {
             return response()->json(['error' => 'Invalid signature'], 400);
         }
 
@@ -35,8 +35,8 @@ class LemonSqueezyController extends Controller
 
         if ($eventName === 'order_created') {
             $checkoutId = $data['data']['attributes']['checkout_id'] ?? null;
-            
-            // Note: Lemon Squeezy order_created webhook doesn't strictly pass the checkout ID sometimes, 
+
+            // Note: Lemon Squeezy order_created webhook doesn't strictly pass the checkout ID sometimes,
             // but we can pass custom data in the checkout payload and it returns in the webhook.
             $customData = $data['meta']['custom_data'] ?? [];
             $orderId = $customData['order_id'] ?? null;
@@ -57,7 +57,7 @@ class LemonSqueezyController extends Controller
 
                     $payment->order->update([
                         'payment_status' => 'paid',
-                        'status' => 'confirmed'
+                        'status' => 'confirmed',
                     ]);
 
                     event(new PaymentReceived($payment));

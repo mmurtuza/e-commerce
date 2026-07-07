@@ -32,7 +32,7 @@ class PaymentManager
 
     public function driver(string $method): PaymentGateway
     {
-        if (!isset($this->gateways[$method])) {
+        if (! isset($this->gateways[$method])) {
             throw new InvalidArgumentException("Payment gateway [{$method}] is not supported.");
         }
 

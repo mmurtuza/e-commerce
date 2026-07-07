@@ -29,6 +29,7 @@ class Setting extends Model
 
         return $memoryCache[$key] = Cache::remember("setting:{$key}", 3600, function () use ($key, $default) {
             $setting = static::where('key', $key)->first();
+
             return $setting ? $setting->getCastedValue() : $default;
         });
     }
@@ -82,10 +83,9 @@ class Setting extends Model
         return $map[$key] ?? ['group' => 'general', 'type' => SettingType::Text];
     }
 
-
     public function getCastedValue(): mixed
     {
-        return match($this->type) {
+        return match ($this->type) {
             SettingType::Boolean => (bool) $this->value,
             SettingType::Number => (float) $this->value,
             SettingType::Json => json_decode($this->value, true),

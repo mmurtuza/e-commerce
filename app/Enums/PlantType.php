@@ -13,7 +13,7 @@ enum PlantType: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Indoor => 'Indoor',
             self::Outdoor => 'Outdoor',
             self::Both => 'Indoor & Outdoor',
@@ -23,7 +23,7 @@ enum PlantType: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Indoor => 'success',
             self::Outdoor => 'warning',
             self::Both => 'info',

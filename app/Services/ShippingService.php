@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Setting;
+
 class ShippingService
 {
     private array $zones = [
@@ -28,7 +30,7 @@ class ShippingService
 
     public function getEstimatedDays(string $division): int
     {
-        return match($division) {
+        return match ($division) {
             'Dhaka' => 1,
             'Chittagong', 'Mymensingh' => 2,
             default => 3,
@@ -37,7 +39,7 @@ class ShippingService
 
     public function isFreeShipping(float $orderTotal): bool
     {
-        return $orderTotal >= (float) \App\Models\Setting::get('free_shipping_threshold', '1500');
+        return $orderTotal >= (float) Setting::get('free_shipping_threshold', '1500');
     }
 
     public function getDivisions(): array

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplyCouponRequest;
 use App\Services\CartService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class CartController extends Controller
+class CartController
 {
     public function __construct(
         private readonly CartService $cartService,
@@ -66,12 +64,14 @@ class CartController extends Controller
     public function applyCoupon(ApplyCouponRequest $request): JsonResponse
     {
         $result = $this->cartService->applyCoupon($request->validated('code'));
+
         return response()->json($result, $result['success'] ? 200 : 422);
     }
 
     public function removeCoupon(): JsonResponse
     {
         $this->cartService->removeCoupon();
+
         return response()->json(['success' => true]);
     }
 

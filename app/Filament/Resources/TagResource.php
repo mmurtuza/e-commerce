@@ -15,8 +15,11 @@ use Filament\Tables\Table;
 class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-hashtag';
+
     protected static ?string $navigationGroup = 'Catalog';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form

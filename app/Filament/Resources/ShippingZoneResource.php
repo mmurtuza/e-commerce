@@ -17,7 +17,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ShippingZoneResource extends Resource
 {
     protected static ?string $model = ShippingZone::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-globe-americas';
+
     protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
@@ -52,7 +54,7 @@ class ShippingZoneResource extends Resource
                             ->default(true),
                     ])
                     ->columns(2)
-                    ->defaultItems(1)
+                    ->defaultItems(1),
             ]),
         ]);
     }

@@ -11,7 +11,7 @@ enum CouponType: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Fixed => 'Fixed Amount (৳)',
             self::Percentage => 'Percentage (%)',
         };
@@ -19,7 +19,7 @@ enum CouponType: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Fixed => 'success',
             self::Percentage => 'info',
         };

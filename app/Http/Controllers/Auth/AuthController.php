@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Events\UserRegistered;
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\Contracts\CartRepositoryInterface;
+use App\Rules\BdPhone;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -17,9 +17,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
-use App\Rules\BdPhone;
 
-class AuthController extends Controller
+class AuthController
 {
     public function showLogin(): View
     {
@@ -61,7 +60,7 @@ class AuthController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['nullable', 'string', 'unique:users,phone', new BdPhone()],
+            'phone' => ['nullable', 'string', 'unique:users,phone', new BdPhone],
             'password' => ['required', 'confirmed', Password::defaults()],
         ], [
             'phone.unique' => __('general.phone_already_registered'),

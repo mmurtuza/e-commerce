@@ -12,7 +12,7 @@ enum AddressLabel: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Home => 'Home',
             self::Office => 'Office',
             self::Other => 'Other',
@@ -21,7 +21,7 @@ enum AddressLabel: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Home => 'success',
             self::Office => 'primary',
             self::Other => 'gray',

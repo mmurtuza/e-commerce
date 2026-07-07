@@ -29,7 +29,7 @@ trait HasSlug
         $count = 1;
 
         while (static::where('slug', $slug)->exists()) {
-            $slug = $original . '-' . $count++;
+            $slug = $original.'-'.$count++;
         }
 
         return $slug;

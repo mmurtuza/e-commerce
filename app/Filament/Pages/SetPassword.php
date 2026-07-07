@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
+use App\Models\Admin;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -53,11 +55,11 @@ class SetPassword extends Page
     {
         $data = $this->form->getState();
 
-        /** @var \App\Models\Admin $admin */
+        /** @var Admin $admin */
         $admin = Auth::guard('admin')->user();
 
         $admin->update([
-            'password'            => Hash::make($data['password']),
+            'password' => Hash::make($data['password']),
             'password_changed_at' => now(),
         ]);
 
@@ -69,7 +71,7 @@ class SetPassword extends Page
         $this->redirect(filament()->getUrl());
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return 'Set Admin Password';
     }

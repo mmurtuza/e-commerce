@@ -13,8 +13,7 @@ class CleanAmpersands
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -22,10 +21,10 @@ class CleanAmpersands
 
         if ($queryString && str_contains($queryString, '&amp;')) {
             $cleanedQueryString = str_replace('&amp;', '&', $queryString);
-            
+
             // Redirect to the URL with the corrected query string
-            $newUrl = $request->url() . '?' . $cleanedQueryString;
-            
+            $newUrl = $request->url().'?'.$cleanedQueryString;
+
             return redirect()->to($newUrl);
         }
 

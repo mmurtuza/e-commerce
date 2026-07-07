@@ -22,8 +22,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
+
     protected static ?string $navigationGroup = 'Catalog';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -62,6 +65,7 @@ class ProductResource extends Resource
                                 if (! $parentId) {
                                     return Category::with('translations')->get()->pluck('name', 'id');
                                 }
+
                                 return Category::where('parent_id', $parentId)
                                     ->orWhere('id', $parentId)
                                     ->with('translations')

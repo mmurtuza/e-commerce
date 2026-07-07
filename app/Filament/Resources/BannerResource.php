@@ -16,8 +16,11 @@ use Filament\Tables\Table;
 class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-photo';
+
     protected static ?string $navigationGroup = 'Content';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -149,9 +152,9 @@ class BannerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListBanners::route('/'),
+            'index' => Pages\ListBanners::route('/'),
             'create' => Pages\CreateBanner::route('/create'),
-            'edit'   => Pages\EditBanner::route('/{record}/edit'),
+            'edit' => Pages\EditBanner::route('/{record}/edit'),
         ];
     }
 }

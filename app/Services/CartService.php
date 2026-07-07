@@ -29,6 +29,7 @@ class CartService
     public function addItem(int $productId, int $quantity = 1, ?int $variantId = null): CartItem
     {
         $cart = $this->getCart();
+
         return $this->cartRepository->addItem($cart, $productId, $quantity, $variantId);
     }
 
@@ -46,7 +47,7 @@ class CartService
     {
         $coupon = $this->couponRepository->findValidByCode($code);
 
-        if (!$coupon) {
+        if (! $coupon) {
             return ['success' => false, 'message' => 'Invalid or expired coupon code.'];
         }
 
@@ -86,10 +87,14 @@ class CartService
 
     public function mergeGuestCart(): void
     {
-        if (!Auth::check()) return;
+        if (! Auth::check()) {
+            return;
+        }
 
         $sessionCart = $this->cartRepository->getOrCreateForUser(null, Session::getId());
-        if ($sessionCart->items->isEmpty()) return;
+        if ($sessionCart->items->isEmpty()) {
+            return;
+        }
 
         $userCart = $this->cartRepository->getOrCreateForUser(Auth::id(), null);
         $this->cartRepository->mergeCarts($sessionCart, $userCart);

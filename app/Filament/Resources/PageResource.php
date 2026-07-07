@@ -3,21 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PageResource\Pages;
-use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
     protected static ?string $navigationGroup = 'Site Management';
 
     public static function form(Form $form): Form
@@ -29,7 +27,7 @@ class PageResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->unique(ignoreRecord: true),
-                    
+
                     Forms\Components\Tabs::make('Translations')->tabs([
                         Forms\Components\Tabs\Tab::make('English')->schema([
                             Forms\Components\TextInput::make('translations.en.title')
@@ -50,7 +48,7 @@ class PageResource extends Resource
                                 ->columnSpanFull(),
                         ]),
                     ])->columnSpanFull(),
-                ])
+                ]),
             ]);
     }
 

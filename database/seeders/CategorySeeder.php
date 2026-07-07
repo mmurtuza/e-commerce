@@ -61,8 +61,8 @@ class CategorySeeder extends Seeder
             ]);
 
             $parent->translations()->createMany([
-                ['locale' => 'en', 'name' => $cat['en'], 'description' => $cat['en'] . ' and computing devices.'],
-                ['locale' => 'bn', 'name' => $cat['bn'], 'description' => $cat['bn'] . ' এবং কম্পিউটার সামগ্রী।'],
+                ['locale' => 'en', 'name' => $cat['en'], 'description' => $cat['en'].' and computing devices.'],
+                ['locale' => 'bn', 'name' => $cat['bn'], 'description' => $cat['bn'].' এবং কম্পিউটার সামগ্রী।'],
             ]);
 
             foreach ($cat['children'] as $childIndex => $child) {
