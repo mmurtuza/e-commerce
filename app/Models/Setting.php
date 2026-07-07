@@ -61,6 +61,7 @@ class Setting extends Model
             'site_logo' => ['group' => 'general', 'type' => SettingType::Image],
             'site_favicon' => ['group' => 'general', 'type' => SettingType::Image],
             'free_shipping_threshold' => ['group' => 'general', 'type' => SettingType::Number],
+            'show_category_menu' => ['group' => 'general', 'type' => SettingType::Boolean],
             'layout_theme' => ['group' => 'appearance', 'type' => SettingType::Text],
             'theme' => ['group' => 'appearance', 'type' => SettingType::Text],
             'hero_style' => ['group' => 'appearance', 'type' => SettingType::Text],

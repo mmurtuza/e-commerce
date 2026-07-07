@@ -5,16 +5,16 @@
     $navCategories = $showCategoryMenu ? \App\Models\Category::whereNull('parent_id')->get() : collect();
 @endphp
 
-<nav class="bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.05)] sticky top-0 z-50" x-data="{ mobileOpen: false }">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+<nav class="bg-white/5 backdrop-blur-3xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] sticky top-0 z-50 mix-blend-screen" x-data="{ mobileOpen: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
 
         <!-- Logo -->
         <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0 group">
             @php $logo = \App\Models\Setting::get('site_logo'); @endphp
             @if($logo)
                 <img src="{{ asset('storage/' . $logo) }}" alt="{{ config('app.name') }}"
-            class="h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300"> @else
-                    <span class="text-2xl font-bold bg-gradient-to-r from-primary-600 to-blue-600 bg-clip-text text-transparent" style="font-family:'Inter',sans-serif">
+            class="h-14 w-auto object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] group-hover:scale-105 transition-transform duration-300"> @else
+                    <span class="text-3xl font-black bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 bg-clip-text text-transparent drop-shadow-sm tracking-tight" style="font-family:'Inter',sans-serif">
                         {{ $siteName }}
                     </span>
                 @endif
@@ -22,12 +22,12 @@
         <!-- Search (desktop) -->
         <form action="{{ route('search.index') }}" method="GET" class="hidden md:flex flex-1 max-w-lg mx-8">
             <div
-                class="flex w-full bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl overflow-hidden focus-within:border-primary-400 focus-within:ring-2 focus-within:ring-primary-400/20 shadow-inner transition-all duration-300">
+                class="flex w-full bg-white/5 backdrop-blur-md border border-white/20 rounded-full overflow-hidden focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-400/30 shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] transition-all duration-300">
                 <input type="text" name="q" value="{{ request('q') }}"
                     placeholder="{{ __('general.search_placeholder') }}"
-                    class="flex-1 px-5 py-2.5 text-sm outline-none bg-transparent placeholder-gray-400">
-                <button type="submit" class="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="flex-1 px-6 py-3 text-sm outline-none bg-transparent placeholder-gray-300 text-white">
+                <button type="submit" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 transition-colors backdrop-blur-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -39,21 +39,21 @@
         <div class="hidden md:flex items-center gap-5">
             <!-- Nav links -->
             <a href="{{ route('home') }}"
-                class="text-sm font-medium text-gray-700 hover:text-primary-600 transition">
+                class="text-sm font-medium text-slate-300 hover:text-white transition-colors drop-shadow-md">
                 {{ __('general.home') }}
             </a>
-            
+
             @if($showCategoryMenu && $navCategories->count() > 0)
                 <div class="relative group" x-data="{ open: false }">
                     <button @mouseenter="open = true" @mouseleave="open = false"
-                        class="text-sm font-medium text-gray-700 hover:text-primary-600 transition flex items-center gap-1">
+                        class="text-sm font-medium text-slate-300 hover:text-white transition-colors drop-shadow-md flex items-center gap-1">
                         {{ __('Categories') }}
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                     </button>
                     <div x-show="open" x-cloak @mouseenter="open = true" @mouseleave="open = false" x-transition class="absolute left-0 pt-2 w-48 z-50">
-                        <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/40 py-2">
+                        <div class="bg-slate-900/80 backdrop-blur-3xl rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.2)] border border-white/10 py-2">
                             @foreach($navCategories as $cat)
-                                <a href="{{ route('shop.index', ['category' => $cat->slug]) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-white/60 hover:text-primary-600">{{ $cat->name }}</a>
+                                <a href="{{ route('shop.index', ['category' => $cat->slug]) }}" class="block px-4 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white transition-colors">{{ $cat->name }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -61,7 +61,7 @@
             @endif
 
             <a href="{{ route('shop.index') }}"
-                class="text-sm font-medium text-gray-700 hover:text-primary-600 transition">
+                class="text-sm font-medium text-slate-300 hover:text-white transition-colors drop-shadow-md">
                 {{ __('general.shop') }}
             </a>
             <a href="{{ route('blog.index') }}"
@@ -200,24 +200,24 @@
             </form>
 
             <a href="{{ route('home') }}"
-                class="flex items-center gap-2 px-2 py-2.5 text-gray-700 hover:text-primary-600 text-sm font-medium">{{ __('general.home') }}</a>
+                class="flex items-center gap-2 px-2 py-2.5 text-slate-300 hover:text-white text-sm font-medium">{{ __('general.home') }}</a>
             
             @if($showCategoryMenu && $navCategories->count() > 0)
                 <div x-data="{ catOpen: false }">
-                    <button @click="catOpen = !catOpen" class="flex items-center justify-between w-full px-2 py-2.5 text-gray-700 hover:text-primary-600 text-sm font-medium">
+                    <button @click="catOpen = !catOpen" class="flex items-center justify-between w-full px-2 py-2.5 text-slate-300 hover:text-white text-sm font-medium">
                         <span>{{ __('Categories') }}</span>
                         <svg class="w-4 h-4 transition-transform" :class="catOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                     </button>
                     <div x-show="catOpen" x-collapse class="pl-4 pr-2 space-y-1 pb-2">
                         @foreach($navCategories as $cat)
-                            <a href="{{ route('shop.index', ['category' => $cat->slug]) }}" class="block px-2 py-2 text-sm text-gray-600 hover:text-primary-600">{{ $cat->name }}</a>
+                            <a href="{{ route('shop.index', ['category' => $cat->slug]) }}" class="block px-2 py-2 text-sm text-slate-400 hover:text-white">{{ $cat->name }}</a>
                         @endforeach
                     </div>
                 </div>
             @endif
 
             <a href="{{ route('shop.index') }}"
-                class="flex items-center gap-2 px-2 py-2.5 text-gray-700 hover:text-primary-600 text-sm font-medium">{{ __('general.shop') }}</a>
+                class="flex items-center gap-2 px-2 py-2.5 text-slate-300 hover:text-white text-sm font-medium">{{ __('general.shop') }}</a>
             <a href="{{ route('blog.index') }}"
                 class="flex items-center gap-2 px-2 py-2.5 text-gray-700 hover:text-primary-600 text-sm font-medium">{{ __('general.blog') }}</a>
 

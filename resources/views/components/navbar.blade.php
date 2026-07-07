@@ -1,5 +1,10 @@
 @props(['siteName'])
 
+@php 
+    $showCategoryMenu = \App\Models\Setting::get('show_category_menu');
+    $navCategories = $showCategoryMenu ? \App\Models\Category::whereNull('parent_id')->get() : collect();
+@endphp
+
 <nav class="bg-white shadow-sm sticky top-0 z-50" x-data="{ mobileOpen: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
 
@@ -37,6 +42,22 @@
                 class="text-sm font-medium text-gray-700 hover:text-primary-600 transition">
                 {{ __('general.home') }}
             </a>
+            @if($showCategoryMenu && $navCategories->count() > 0)
+                <div class="relative group" x-data="{ open: false }">
+                    <button @mouseenter="open = true" @mouseleave="open = false"
+                        class="text-sm font-medium text-gray-700 hover:text-primary-600 transition flex items-center gap-1">
+                        {{ __('Categories') }}
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div x-show="open" x-cloak @mouseenter="open = true" @mouseleave="open = false" x-transition class="absolute left-0 pt-2 w-48 z-50">
+                        <div class="bg-white rounded-xl shadow-lg border border-gray-100 py-2">
+                            @foreach($navCategories as $cat)
+                                <a href="{{ route('shop.index', ['category' => $cat->slug]) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-600">{{ $cat->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
             <a href="{{ route('shop.index') }}"
                 class="text-sm font-medium text-gray-700 hover:text-primary-600 transition">
                 {{ __('general.shop') }}
@@ -178,6 +199,21 @@
 
             <a href="{{ route('home') }}"
                 class="flex items-center gap-2 px-2 py-2.5 text-gray-700 hover:text-primary-600 text-sm font-medium">{{ __('general.home') }}</a>
+            
+            @if($showCategoryMenu && $navCategories->count() > 0)
+                <div x-data="{ catOpen: false }">
+                    <button @click="catOpen = !catOpen" class="flex items-center justify-between w-full px-2 py-2.5 text-gray-700 hover:text-primary-600 text-sm font-medium">
+                        <span>{{ __('Categories') }}</span>
+                        <svg class="w-4 h-4 transition-transform" :class="catOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div x-show="catOpen" x-collapse class="pl-4 pr-2 space-y-1 pb-2">
+                        @foreach($navCategories as $cat)
+                            <a href="{{ route('shop.index', ['category' => $cat->slug]) }}" class="block px-2 py-2 text-sm text-gray-600 hover:text-primary-600">{{ $cat->name }}</a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <a href="{{ route('shop.index') }}"
                 class="flex items-center gap-2 px-2 py-2.5 text-gray-700 hover:text-primary-600 text-sm font-medium">{{ __('general.shop') }}</a>
             <a href="{{ route('blog.index') }}"

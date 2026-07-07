@@ -36,6 +36,7 @@ class Settings extends Page
             'phone' => $settings->get('phone')?->value ?? '',
             'email' => $settings->get('email')?->value ?? '',
             'address' => $settings->get('address')?->value ?? '',
+            'show_category_menu' => $settings->get('show_category_menu')?->getCastedValue() ?? false,
             'layout_theme' => $settings->get('layout_theme')?->value ?? 'default',
             'theme' => $settings->get('theme')?->value ?? 'default',
             'hero_style' => $settings->get('hero_style')?->value ?? 'carousel',
@@ -57,12 +58,17 @@ class Settings extends Page
                     Forms\Components\Textarea::make('address')->label('Address')->columnSpanFull(),
                 ])->columns(2),
                 Forms\Components\Section::make('Appearance')->schema([
+                    Forms\Components\Toggle::make('show_category_menu')
+                        ->label('Show Category Menu in Navbar')
+                        ->default(false)
+                        ->columnSpanFull(),
                     Forms\Components\Select::make('layout_theme')
                         ->label('Layout Theme (Structure)')
                         ->options([
                             'default' => 'Default Storefront',
                             'modern' => 'Modern Glassmorphism',
                             'classic' => 'Classic E-Commerce',
+                            'liquid' => 'Liquid Glass',
                         ])
                         ->default('default')
                         ->required(),
