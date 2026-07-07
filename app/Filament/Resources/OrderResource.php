@@ -7,6 +7,7 @@ namespace App\Filament\Resources;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Filament\Resources\OrderResource\Pages;
+use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -152,6 +153,13 @@ class OrderResource extends Resource
                         ->requiresConfirmation(),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\ShipmentsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

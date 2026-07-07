@@ -52,7 +52,9 @@ class ProductResource extends Resource
                                 if ($record && $record->category) {
                                     $component->state($record->category->parent_id ?? $record->category_id);
                                 }
-                            }),
+                            })
+                            ->searchable()
+                            ->required(),
                         Forms\Components\Select::make('category_id')
                             ->label('Category / Subcategory')
                             ->options(function (Forms\Get $get) {
@@ -68,6 +70,17 @@ class ProductResource extends Resource
                             })
                             ->searchable()
                             ->required(),
+                        Forms\Components\Select::make('brand_id')
+                            ->label('Brand')
+                            ->relationship('brand', 'slug')
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\Select::make('tags')
+                            ->multiple()
+                            ->relationship('tags', 'name')
+                            ->preload()
+                            ->searchable(),
                     ]),
                     Forms\Components\TextInput::make('slug')
                         ->label('Slug')
@@ -146,6 +159,7 @@ class ProductResource extends Resource
                     ->badge()
                     ->color(fn ($record) => $record->stock_quantity <= 0 ? 'danger' : ($record->stock_quantity <= $record->low_stock_threshold ? 'warning' : 'success')),
                 Tables\Columns\TextColumn::make('category.name')->label('Category'),
+                Tables\Columns\TextColumn::make('brand.name')->label('Brand'),
                 Tables\Columns\ToggleColumn::make('is_active')->label('Active'),
                 Tables\Columns\ToggleColumn::make('is_featured')->label('Featured'),
             ])

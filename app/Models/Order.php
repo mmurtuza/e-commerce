@@ -54,6 +54,16 @@ class Order extends Model
         return $this->belongsTo(Coupon::class);
     }
 
+    public function shippingMethod(): BelongsTo
+    {
+        return $this->belongsTo(ShippingMethod::class);
+    }
+
+    public function shipments(): HasMany
+    {
+        return $this->hasMany(Shipment::class);
+    }
+
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);

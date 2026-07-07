@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ReviewResource\Pages;
+namespace App\Filament\Resources\BrandResource\Pages;
 
-use App\Filament\Resources\ReviewResource;
+use App\Filament\Resources\BrandResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListReviews extends ListRecords
+class ListBrands extends ListRecords
 {
-    protected static string $resource = ReviewResource::class;
+    protected static string $resource = BrandResource::class;
 
     protected function getHeaderActions(): array
     {
