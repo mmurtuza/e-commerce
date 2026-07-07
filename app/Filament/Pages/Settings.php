@@ -36,6 +36,7 @@ class Settings extends Page
             'phone' => $settings->get('phone')?->value ?? '',
             'email' => $settings->get('email')?->value ?? '',
             'address' => $settings->get('address')?->value ?? '',
+            'layout_theme' => $settings->get('layout_theme')?->value ?? 'default',
             'theme' => $settings->get('theme')?->value ?? 'default',
             'hero_style' => $settings->get('hero_style')?->value ?? 'carousel',
         ]);
@@ -56,8 +57,17 @@ class Settings extends Page
                     Forms\Components\Textarea::make('address')->label('Address')->columnSpanFull(),
                 ])->columns(2),
                 Forms\Components\Section::make('Appearance')->schema([
+                    Forms\Components\Select::make('layout_theme')
+                        ->label('Layout Theme (Structure)')
+                        ->options([
+                            'default' => 'Default Storefront',
+                            'modern' => 'Modern Glassmorphism',
+                            'classic' => 'Classic E-Commerce',
+                        ])
+                        ->default('default')
+                        ->required(),
                     Forms\Components\Select::make('theme')
-                        ->label('Site Theme')
+                        ->label('Color Scheme')
                         ->options([
                             'default' => 'Forest Green',
                             'ocean' => 'Ocean Blue',
