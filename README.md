@@ -113,7 +113,7 @@ vendor/bin/pint
 ## 📁 Directory Overview
 
 ```
-dinajpuritpark/
+e-commerce/
 ├── app/
 │   ├── Filament/            # Admin Panel resources, pages, and widgets
 │   ├── Http/Controllers/    # Storefront & Payment controllers
