@@ -1,4 +1,4 @@
-# DinajpurITPark E-Commerce Platform
+# E-Commerce Platform
 
 A modern, high-performance, multi-theme E-Commerce platform built with **Laravel 13**, **Filament v3**, **Livewire 3**, **Tailwind CSS v4**, and **Alpine.js**.
 
