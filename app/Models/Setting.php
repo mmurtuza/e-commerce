@@ -19,15 +19,15 @@ class Setting extends Model
         ];
     }
 
+    protected static array $memoryCache = [];
+
     public static function get(string $key, mixed $default = null): mixed
     {
-        static $memoryCache = [];
-
-        if (array_key_exists($key, $memoryCache)) {
-            return $memoryCache[$key];
+        if (array_key_exists($key, static::$memoryCache)) {
+            return static::$memoryCache[$key];
         }
 
-        return $memoryCache[$key] = Cache::remember("setting:{$key}", 3600, function () use ($key, $default) {
+        return static::$memoryCache[$key] = Cache::remember("setting:{$key}", 3600, function () use ($key, $default) {
             $setting = static::where('key', $key)->first();
 
             return $setting ? $setting->getCastedValue() : $default;
@@ -50,6 +50,7 @@ class Setting extends Model
             ]);
         }
 
+        unset(static::$memoryCache[$key]);
         Cache::forget("setting:{$key}");
     }
 

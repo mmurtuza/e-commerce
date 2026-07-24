@@ -24,7 +24,7 @@ class CouponService
         if ($coupon->min_order_amount && $subtotal < $coupon->min_order_amount) {
             return [
                 'valid' => false,
-                'message' => 'Minimum order amount is ৳'.number_format($coupon->min_order_amount, 2),
+                'message' => 'Minimum order amount is ৳'.number_format((float) $coupon->min_order_amount, 2),
             ];
         }
 
